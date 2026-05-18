@@ -217,6 +217,80 @@ body{background:
   70%{transform:scale(1);opacity:1}
 }
 
+
+/* Totales centrados arriba y mañana desde las 16:00 */
+.header{grid-template-columns:auto 1fr auto auto!important;column-gap:16px!important}
+.header-center{display:flex;align-items:center;justify-content:center;gap:10px;min-width:150px}
+.pill-total,.pill-tomorrow{min-width:104px!important}
+#tomorrowWrap[hidden]{display:none!important}
+.logo{padding:8px 10px!important;min-width:64px;box-sizing:border-box}
+@media(max-width:1200px){
+  .header{grid-template-columns:auto 1fr auto auto!important;column-gap:10px!important}
+  .header-center{gap:8px;min-width:120px}
+  .pill-total,.pill-tomorrow{min-width:84px!important}
+}
+@media(max-width:850px){
+  .header{grid-template-columns:auto 1fr auto auto!important}
+  .header-center{justify-content:center!important}
+  .status-top{justify-content:flex-end!important}
+}
+
+
+/* Nota secundaria de remoto/parking en salidas: zona central señalada */
+.gate-note-zone{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-width:0;
+  overflow:hidden;
+}
+.gate-note{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  max-width:100%;
+  padding:3px 8px;
+  border-radius:999px;
+  font-size:9px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.45px;
+  text-transform:uppercase;
+  white-space:nowrap;
+  color:rgba(240,238,232,.68);
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.07);
+  opacity:.88;
+}
+.gate-note.remote{
+  color:rgba(232,201,106,.88);
+  background:rgba(200,168,75,.075);
+  border-color:rgba(200,168,75,.16);
+}
+.gate-note.parking{
+  color:rgba(138,147,168,.9);
+  background:rgba(138,147,168,.075);
+  border-color:rgba(138,147,168,.14);
+}
+@media(max-width:1200px){
+  .gate-note{
+    font-size:7.5px;
+    padding:2px 6px;
+    letter-spacing:.35px;
+  }
+}
+
+
+/* 4 columnas para colocar Remoto/Parking en el hueco central */
+.flight{
+  grid-template-columns:84px minmax(0,1fr) 92px 132px!important;
+}
+@media(max-width:1200px){
+  .flight{
+    grid-template-columns:74px minmax(0,1fr) 78px 118px!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -227,8 +301,11 @@ body{background:
       <h1>Vuelos ALC en tiempo real</h1>
       <div class="sub">Pantalla operativa · Alicante</div>
     </div>
+    <div class="header-center">
+      <div class="pill pill-total"><div class="label">Total hoy</div><div class="value" id="totalToday">0</div></div>
+      <div class="pill pill-tomorrow" id="tomorrowWrap" hidden><div class="label">Mañana</div><div class="value" id="totalTomorrow">0</div></div>
+    </div>
     <div class="status-top">
-      <div class="pill"><div class="label">Total hoy</div><div class="value" id="totalToday">0</div></div>
       <div class="pill live"><div class="label"><span class="live-dot"></span>Estado</div><div class="value" id="statusLive">Live</div></div>
       <div class="pill"><div class="label">Hora</div><div class="value" id="clock">--:--</div></div>
       <div class="pill"><div class="label">Actualizado</div><div class="value" id="updated">--:--</div></div>
@@ -256,6 +333,7 @@ body{background:
 const RAILWAY="https://aena-vuelos-server-production.up.railway.app";
 const REFRESH_SECONDS=300;
 const VISIBLE_FUTURE_MIN=1440; // muestra todos los vuelos futuros del día; antes estaba limitado a 12h
+const COUNT_CACHE_KEY="south_tv_daily_counts_v1";
 let liveData={lle:[],sal:[]};
 let refreshLeft=REFRESH_SECONDS;
 let loading=false;
@@ -267,6 +345,24 @@ function esc(s){return String(s??"").replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&l
 function hToMin(h){if(!h||String(h).indexOf(":")<0)return null;let p=String(h).split(":"),hh=parseInt(p[0],10),mm=parseInt(p[1],10);if(isNaN(hh)||isNaN(mm))return null;return hh*60+mm;}
 function nowReal(){return new Date(Date.now()+serverOffsetMs);}
 function nowMinReal(){let n=nowReal();return n.getHours()*60+n.getMinutes();}
+function isoDate(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());}
+function loadCountCache(){try{return JSON.parse(localStorage.getItem(COUNT_CACHE_KEY)||"{}");}catch(e){return {};}}
+function saveCountCache(v){try{localStorage.setItem(COUNT_CACHE_KEY,JSON.stringify(v));}catch(e){}}
+function computeTotalsPersistent(){
+  const now=nowReal();
+  const todayKey=isoDate(now);
+  const dm=new Date(now); dm.setDate(dm.getDate()+1);
+  const tomorrowKey=isoDate(dm);
+  const rawToday=(liveData.lle||[]).filter(v=>!v.esManana).length + (liveData.sal||[]).filter(v=>!v.esManana).length;
+  const rawTomorrow=(liveData.lle||[]).filter(v=>v.esManana).length + (liveData.sal||[]).filter(v=>v.esManana).length;
+  let cache=loadCountCache();
+  if(cache.todayKey!==todayKey){cache={todayKey:todayKey,todayMax:0,tomorrowKey:tomorrowKey,tomorrowMax:0};}
+  if(cache.tomorrowKey!==tomorrowKey){cache.tomorrowKey=tomorrowKey; cache.tomorrowMax=0;}
+  cache.todayMax=Math.max(Number(cache.todayMax||0), rawToday);
+  if(now.getHours()>=16) cache.tomorrowMax=Math.max(Number(cache.tomorrowMax||0), rawTomorrow);
+  saveCountCache(cache);
+  return {today:cache.todayMax||rawToday, tomorrow:(cache.tomorrowMax||rawTomorrow||0), showTomorrow:now.getHours()>=16};
+}
 function cityName(raw){let x=String(raw||"").trim();if(!x)return "--";let parts=x.split("-").map(s=>s.trim()).filter(Boolean);let first=parts[0]||x;if(CIUDADES[first])return CIUDADES[first];return first.replace("El Prat De Llobregat","Barcelona").replace("Adolfo Suarez","Madrid").replace("Josep Tarradellas","Barcelona").replace("Norte Los Rodeos","Tenerife Norte").replace("Reina Sofia","Tenerife Sur").replace("Charles De Gaulle","París").replace("Heathrow","Londres").replace("Gatwick","Londres").replace("Schiphol","Ámsterdam").replace("Boumediene","Argel").replace("Airport","").replace("International","").replace(/\s+/g," ").trim();}
 function eLabel(s){
   if(!s)return{t:"Programado",c:"e-scheduled"};
@@ -347,6 +443,21 @@ function isVisible(v,tipo){
 }
 function sortFlights(a,b){return minutesUntil(a)-minutesUntil(b);}
 function flightClass(v){let cls=v.estadoClass||"";if(cls==="e-delayed")return" delayed";if(cls==="e-active")return" active";if(cls==="e-equip")return" equip";if(cls==="e-cancelled")return" cancelled";return"";}
+function gateOperationalLabel(puerta){
+  let raw=String(puerta||"").toUpperCase().trim();
+  if(!raw)return null;
+  let m=raw.match(/([BC])\s*[- ]?\s*(\d{1,2})/);
+  if(!m)return null;
+  let gate=m[1]+m[2].padStart(2,"0");
+  let number=String(parseInt(m[2],10));
+  let remoteSet=new Set([
+    "C50","C48","C46","C44","C42","C40","C38",
+    "B18","B20","B22",
+    "C20","C22","C24","C26","C28","C30","C32","C34"
+  ]);
+  if(remoteSet.has(gate))return {text:"Remoto", cls:"remote"};
+  return {text:"Parking "+number, cls:"parking"};
+}
 function renderList(id,flights,tipo){
   let box=document.getElementById(id);
   let data=flights.filter(v=>isVisible(v,tipo)).sort(sortFlights);
@@ -361,9 +472,12 @@ function renderList(id,flights,tipo){
     let horaProg=v.horaProg||v.hora||"--:--";let horaReal=v.horaReal||"";
     let timeHtml=(horaReal&&horaReal!==horaProg)?`<span class="oldtime">${esc(horaProg)}</span>${esc(horaReal)}`:esc(horaProg);
     let extra="";if(tipo==="salidas"&&v.puerta)extra="Puerta "+v.puerta;if(tipo==="llegadas"&&v.cinta)extra="Cinta "+v.cinta;if(tipo==="llegadas"&&!v.cinta&&v.sala)extra="Sala "+v.sala;
+    let gateNote=(tipo==="salidas")?gateOperationalLabel(v.puerta):null;
+    let gateNoteHtml=gateNote?`<div class="gate-note ${gateNote.cls}">${esc(gateNote.text)}</div>`:"";
     html+=`<div class="flight${flightClass(v)}${v.esManana?' tomorrow':''}" data-hora="${esc(horaReal||horaProg)}" data-estado-class="${esc(v.estadoClass||'')}" data-es-manana="${v.esManana?'1':'0'}" data-tipo="${tipo}">
       <div><div class="num">${esc(num)}</div>${extra?`<div class="subnum">${esc(extra)}</div>`:""}</div>
       <div><div class="city">${esc(city)}</div><div class="time">${timeHtml}</div></div>
+      <div class="gate-note-zone">${gateNoteHtml}</div>
       <div class="right"><div class="state ${esc(v.estadoClass||'e-scheduled')}">${esc(v.estado||'Programado')}</div><div class="countdown">—</div></div>
     </div>`;
   });
@@ -371,9 +485,20 @@ function renderList(id,flights,tipo){
   updateCountdowns();
 }
 function updateTotalToday(){
-  let total=(liveData.lle||[]).filter(v=>!v.esManana).length + (liveData.sal||[]).filter(v=>!v.esManana).length;
+  let totals=computeTotalsPersistent();
   let el=document.getElementById('totalToday');
-  if(el)el.textContent=String(total);
+  if(el)el.textContent=String(totals.today);
+  let tw=document.getElementById('tomorrowWrap');
+  let tm=document.getElementById('totalTomorrow');
+  if(tw&&tm){
+    if(totals.showTomorrow){
+      tw.hidden=false;
+      tm.textContent=String(totals.tomorrow||0);
+    }else{
+      tw.hidden=true;
+      tm.textContent='0';
+    }
+  }
 }
 
 function updateCountdowns(){

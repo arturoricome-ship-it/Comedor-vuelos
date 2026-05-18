@@ -24,7 +24,7 @@ body{background:
   linear-gradient(160deg,#101c31 0%,#0d1623 62%,#08111c 100%);
 }
 #app{min-height:100vh;width:100%;display:flex;flex-direction:column;padding:18px 22px 20px;gap:16px}
-.header{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;min-height:78px;padding:14px 16px 16px;border:1px solid rgba(77,213,226,.18);border-radius:24px;background:linear-gradient(90deg, rgba(28,183,197,.28) 0%, rgba(18,118,131,.22) 28%, rgba(17,29,49,.55) 62%, rgba(17,29,49,.30) 100%);box-shadow:0 10px 28px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.04)}
+.header{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;min-height:78px;border-bottom:1px solid rgba(200,168,75,.35);padding-bottom:14px}
 .logo{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#157f8e,#29b8cb 55%,#77dce8);display:flex;align-items:center;justify-content:center;color:#eef7f8;font-family:"Bebas Neue",sans-serif;font-size:30px;letter-spacing:.8px;box-shadow:0 8px 28px rgba(39,189,208,.22);border:1px solid rgba(119,220,232,.20)}
 .title h1{font-family:"Bebas Neue",sans-serif;font-size:48px;letter-spacing:3px;line-height:.9;color:var(--white)}
 .title .sub{margin-top:8px;color:var(--gold);font-size:15px;letter-spacing:2.7px;font-weight:800;text-transform:uppercase}
@@ -53,10 +53,9 @@ body{background:
 }
 .header{
   min-height:52px!important;
-  padding:9px 12px 10px!important;
+  padding-bottom:8px!important;
   gap:10px!important;
-  border-bottom-color:transparent!important;
-  border-radius:18px!important;
+  border-bottom-color:rgba(200,168,75,.26)!important;
 }
 .logo{
   width:44px!important;
@@ -174,7 +173,7 @@ body{background:
 }
 @media(max-width:1200px){
   #app{padding:7px 10px 9px!important;gap:7px!important}
-  .header{min-height:46px!important;padding:8px 10px 9px!important}
+  .header{min-height:46px!important;padding-bottom:7px!important}
   .logo{width:38px!important;height:38px!important;font-size:17px!important}
   .title h1{font-size:27px!important}
   .title .sub{font-size:8px!important}
@@ -681,25 +680,6 @@ body::before{
   font-weight:900;
 }
 
-
-.header .title{align-self:center}
-.header .status-top .pill{background:rgba(14,23,39,.22);backdrop-filter:blur(4px)}
-
-
-/* Reforzar logo real SOUTH */
-.logo{
-  background:transparent!important;
-  background-image:url("south-logo.png")!important;
-  background-repeat:no-repeat!important;
-  background-position:left center!important;
-  background-size:contain!important;
-  font-size:0!important;
-  color:transparent!important;
-  border:none!important;
-  box-shadow:none!important;
-  border-radius:0!important;
-}
-
 </style>
 </head>
 <body>
@@ -723,7 +703,7 @@ body::before{
   </header>
 
   <section class="insights" aria-label="Resumen operativo">
-    <div class="insight"><div class="k">Próx. 60 min</div><div class="v green" id="insightNow">—</div></div>
+    <div class="insight"><div class="k">Lleg. 60 min</div><div class="v green" id="insightNow">—</div></div>
     <div class="insight"><div class="k">Pico lleg.</div><div class="v orange" id="insightPeak">—</div></div>
     <div class="insight"><div class="k">Remotos</div><div class="v cyan" id="insightRemote">—</div></div>
   </section>
@@ -977,10 +957,11 @@ function allLiveFlights(){
   return (liveData.lle||[]).map(v=>({...v,tipo:'llegadas'})).concat((liveData.sal||[]).map(v=>({...v,tipo:'salidas'})));
 }
 function calcActiveNow(){
-  // Próximos 60 min: solo movimientos pendientes.
-  // En llegadas, cuenta únicamente aviones que todavía no han llegado.
-  // No cuentan equipajes, en tierra, finalizados, cancelados ni llegadas con hora real/estimada ya pasada.
-  return allLiveFlights().filter(v=>{
+  // Llegadas en los próximos 60 min:
+  // Solo cuenta aviones que todavía NO han llegado.
+  // No cuenta salidas, equipajes, en tierra, finalizados, cancelados,
+  // ni llegadas cuya hora real/estimada ya haya pasado.
+  return (liveData.lle||[]).filter(v=>{
     if(v.esManana)return false;
 
     const cls=v.estadoClass||"";
@@ -990,14 +971,7 @@ function calcActiveNow(){
     if(/tierra|equipaje|equipajes|finaliz|cancel/.test(estado))return false;
 
     const d=minutesUntil(v);
-
-    if(v.tipo==="llegadas"){
-      // Si ya ha pasado su hora real/estimada, lo consideramos llegado o fuera del objetivo.
-      return d>0 && d<=60;
-    }
-
-    // Salidas pendientes de los próximos 60 min.
-    return d>=0 && d<=60;
+    return d>0 && d<=60;
   }).length;
 }
 function calcPeak(){
@@ -1070,7 +1044,7 @@ function updateChanges(){
   return msg||"Sin cambios";
 }
 function updateInsights(){
-  setText("insightNow",calcActiveNow()+" vuelos");
+  setText("insightNow",calcActiveNow()+" lleg.");
   setText("insightPeak",calcPeak());
   setText("insightRemote",calcRemoteNext());
 }

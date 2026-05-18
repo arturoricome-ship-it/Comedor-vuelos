@@ -509,6 +509,47 @@ body{background:
   .city{font-size:15px!important}
 }
 
+
+/* Parking / Remoto en el centro de la tarjeta */
+.flight{
+  grid-template-columns:74px minmax(0,1fr) 86px 112px!important;
+}
+.gate-note-zone{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-width:0!important;
+  overflow:hidden!important;
+}
+.gate-note{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  max-width:100%!important;
+  padding:2px 6px!important;
+  border-radius:999px!important;
+  font-size:7.5px!important;
+  line-height:1!important;
+  font-weight:900!important;
+  letter-spacing:.25px!important;
+  text-transform:uppercase!important;
+  white-space:nowrap!important;
+  opacity:.88!important;
+}
+.gate-note-inline{
+  display:none!important;
+}
+@media(max-width:1200px){
+  .flight{
+    grid-template-columns:68px minmax(0,1fr) 72px 102px!important;
+  }
+  .gate-note{
+    font-size:6.8px!important;
+    padding:2px 5px!important;
+    letter-spacing:.18px!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -731,10 +772,11 @@ function renderList(id,flights,tipo){
     let timeHtml=(horaReal&&horaReal!==horaProg)?`<span class="oldtime">${esc(horaProg)}</span>${esc(horaReal)}`:esc(horaProg);
     let extra="";if(tipo==="salidas"&&v.puerta)extra="Puerta "+v.puerta;if(tipo==="llegadas"&&v.cinta)extra="Cinta "+v.cinta;if(tipo==="llegadas"&&!v.cinta&&v.sala)extra="Sala "+v.sala;
     let gateNote=(tipo==="salidas")?gateOperationalLabel(v.puerta):null;
-    let gateNoteInline=gateNote?`<span class="gate-note-inline ${gateNote.cls}">${esc(gateNote.text)}</span>`:"";
+    let gateNoteHtml=gateNote?`<div class="gate-note ${gateNote.cls}">${esc(gateNote.text)}</div>`:"";
     html+=`<div class="flight${flightClass(v)}${v.esManana?' tomorrow':''}" data-hora="${esc(horaReal||horaProg)}" data-estado-class="${esc(v.estadoClass||'')}" data-es-manana="${v.esManana?'1':'0'}" data-tipo="${tipo}">
       <div><div class="num">${esc(num)}</div>${extra?`<div class="subnum">${esc(extra)}</div>`:""}</div>
-      <div><div class="city">${esc(city)}</div><div class="time">${timeHtml}${gateNoteInline}</div></div>
+      <div><div class="city">${esc(city)}</div><div class="time">${timeHtml}</div></div>
+      <div class="gate-note-zone">${gateNoteHtml}</div>
       <div class="right"><div class="state ${esc(v.estadoClass||'e-scheduled')}">${esc((v.estado||'Programado').replace('Entrega equipajes','Equipajes'))}</div><div class="countdown">—</div></div>
     </div>`;
   });

@@ -553,16 +553,10 @@ body{background:
 
 /* === Logos reales SOUTH por archivos externos === */
 body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
-  background-image:url("south-o-bg.png");
-  background-repeat:no-repeat;
-  background-position:center center;
-  background-size:min(92vw,92vh);
-  opacity:.055;
+  content:none!important;
+  display:none!important;
+  background-image:none!important;
+  opacity:0!important;
 }
 #app{
   position:relative;
@@ -624,8 +618,9 @@ body::before{
   letter-spacing:1.55px!important;
 }
 body::before{
-  background-size:min(98vw,98vh)!important;
-  opacity:.095!important;
+  display:none!important;
+  background-image:none!important;
+  opacity:0!important;
 }
 .logo{
   width:126px!important;
@@ -657,6 +652,32 @@ body::before{
     max-width:112px!important;
     flex-basis:112px!important;
   }
+}
+
+
+/* Fondo O eliminado definitivamente */
+body::before{
+  content:none!important;
+  display:none!important;
+  background-image:none!important;
+  opacity:0!important;
+}
+
+/* Pico llegadas: hora y número diferenciados */
+.insight .v .peak-time{
+  color:var(--orange);
+  font-weight:900;
+}
+.insight .v .peak-count{
+  display:inline-flex;
+  align-items:center;
+  margin-left:8px;
+  padding:2px 7px;
+  border-radius:999px;
+  background:rgba(251,146,60,.15);
+  border:1px solid rgba(251,146,60,.28);
+  color:#ffd0a8;
+  font-weight:900;
 }
 
 </style>
@@ -928,16 +949,22 @@ const CHANGE_CACHE_KEY="south_tv_last_snapshot_v1";
 
 function setText(id,txt){
   let el=document.getElementById(id);
-  if(el)el.textContent=txt;
+  if(!el)return;
+  if(id==="insightPeak")el.innerHTML=txt;
+  else el.textContent=txt;
 }
 function allLiveFlights(){
   return (liveData.lle||[]).map(v=>({...v,tipo:'llegadas'})).concat((liveData.sal||[]).map(v=>({...v,tipo:'salidas'})));
 }
 function calcActiveNow(){
-  // Dato objetivo: vuelos de hoy cuya hora real/programada cae entre ahora y los próximos 60 min.
-  // No depende del estado, así evitamos confundir "activo" con "en vuelo", "equipajes" o "embarque".
+  // Próximos 60 min: solo movimientos pendientes.
+  // No cuentan los que ya están en tierra, en equipajes, finalizados o cancelados.
   return allLiveFlights().filter(v=>{
     if(v.esManana)return false;
+    const cls=v.estadoClass||"";
+    const estado=String(v.estado||"").toLowerCase();
+    if(cls==="e-landed"||cls==="e-equip"||cls==="e-final"||cls==="e-cancelled")return false;
+    if(/tierra|equipaje|finaliz|cancel/.test(estado))return false;
     let d=minutesUntil(v);
     return d>=0 && d<=60;
   }).length;
@@ -967,7 +994,8 @@ function calcPeak(){
   }
 
   const end=bestStart+windowMin;
-  return pad(Math.floor(bestStart/60))+":"+pad(bestStart%60)+"-"+pad(Math.floor(end/60))+":"+pad(end%60)+" · "+bestCount+" lleg.";
+  const rango=pad(Math.floor(bestStart/60))+":"+pad(bestStart%60)+"-"+pad(Math.floor(end/60))+":"+pad(end%60);
+  return `<span class="peak-time">${rango}</span><span class="peak-count">${bestCount} lleg.</span>`;
 }
 function calcRemoteNext(){
   let rem=(liveData.sal||[]).filter(v=>{
@@ -978,7 +1006,8 @@ function calcRemoteNext(){
   });
   if(!rem.length)return "0";
   let first=rem.sort(sortFlights)[0];
-  return rem.length+" · "+(first.numero||"")+" "+(first.puerta||"");
+  let city=cityName(first.destino||first.destination||first.aeropuertoDestino||"");
+  return rem.length+" · "+city+" "+(first.puerta||"");
 }
 function makeSnapshot(){
   let obj={};

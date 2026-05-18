@@ -236,35 +236,6 @@ body{background:
 }
 
 
-
-/* Logo SOUTH redondo y holgado */
-.logo{
-  width:58px!important;
-  height:58px!important;
-  min-width:58px!important;
-  aspect-ratio:1/1!important;
-  border-radius:50%!important;
-  padding:0!important;
-  box-sizing:border-box!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  overflow:hidden!important;
-  font-size:17px!important;
-  line-height:1!important;
-  letter-spacing:.35px!important;
-}
-@media(max-width:1200px){
-  .logo{
-    width:50px!important;
-    height:50px!important;
-    min-width:50px!important;
-    font-size:14px!important;
-    padding:0!important;
-  }
-}
-
-
 /* Nota secundaria de remoto/parking en salidas: zona central señalada */
 .gate-note-zone{
   display:flex;
@@ -292,9 +263,9 @@ body{background:
   opacity:.88;
 }
 .gate-note.remote{
-  color:#f0abfc;
-  background:rgba(217,70,239,.10);
-  border-color:rgba(217,70,239,.22);
+  color:rgba(232,201,106,.88);
+  background:rgba(200,168,75,.075);
+  border-color:rgba(200,168,75,.16);
 }
 .gate-note.parking{
   color:rgba(138,147,168,.9);
@@ -317,6 +288,37 @@ body{background:
 @media(max-width:1200px){
   .flight{
     grid-template-columns:74px minmax(0,1fr) 78px 118px!important;
+  }
+}
+
+
+/* Logo SOUTH redondo: mantiene el Index original, solo corrige la forma */
+.logo{
+  width:54px!important;
+  height:54px!important;
+  min-width:54px!important;
+  max-width:54px!important;
+  aspect-ratio:1/1!important;
+  border-radius:50%!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  overflow:hidden!important;
+  font-size:16px!important;
+  line-height:1!important;
+  letter-spacing:.35px!important;
+  flex:0 0 54px!important;
+}
+@media(max-width:1200px){
+  .logo{
+    width:46px!important;
+    height:46px!important;
+    min-width:46px!important;
+    max-width:46px!important;
+    flex-basis:46px!important;
+    font-size:13px!important;
   }
 }
 
@@ -394,28 +396,46 @@ function computeTotalsPersistent(){
 }
 function cityName(raw){let x=String(raw||"").trim();if(!x)return "--";let parts=x.split("-").map(s=>s.trim()).filter(Boolean);let first=parts[0]||x;if(CIUDADES[first])return CIUDADES[first];return first.replace("El Prat De Llobregat","Barcelona").replace("Adolfo Suarez","Madrid").replace("Josep Tarradellas","Barcelona").replace("Norte Los Rodeos","Tenerife Norte").replace("Reina Sofia","Tenerife Sur").replace("Charles De Gaulle","París").replace("Heathrow","Londres").replace("Gatwick","Londres").replace("Schiphol","Ámsterdam").replace("Boumediene","Argel").replace("Airport","").replace("International","").replace(/\s+/g," ").trim();}
 function eLabel(s){
-  if(!s)return{t:"PROGRAMADO",c:"e-scheduled"};
-  let raw=String(s).trim();
-  let x=raw.toLowerCase().replace(/\s+/g,' ').trim();
-  if(/entrega\s*equip|entrega\s*equipaje|equipaje|baggage|reclaim/.test(x))return{t:"ENTREGA EQUIP.",c:"e-equip"};
-  if(x==="en tierra"||x==="on ground"||x==="tierra")return{t:"EN TIERRA",c:"e-landed"};
-  if(/embarque|boarding/.test(x))return{t:"EMBARQUE",c:"e-boarding"};
-  if(/puerta|gate/.test(x))return{t:"PUERTA",c:"e-gate"};
-  if(/taxi|rodaje/.test(x))return{t:"RODAJE",c:"e-taxiing"};
-  if(x==="active"||x==="en route"||x.indexOf("en vuelo")!==-1)return{t:"EN VUELO",c:"e-active"};
-  if(x.indexOf("cancel")!==-1)return{t:"CANCELADO",c:"e-cancelled"};
-  if(x.indexOf("delay")!==-1||x.indexOf("retras")!==-1)return{t:"RETRASADO",c:"e-delayed"};
-  if(x.indexOf("finaliz")!==-1||x.indexOf("closed")!==-1||x.indexOf("cerrado")!==-1)return{t:"FINALIZADO",c:"e-final"};
-  if(/aterriz|landed|arrived|llegad/.test(x))return{t:"EN TIERRA",c:"e-landed"};
-  if(x.indexOf("program")!==-1)return{t:"PROGRAMADO",c:"e-scheduled"};
-  return{t:raw.toUpperCase(),c:"e-scheduled"};
+  if(!s)return{t:"Programado",c:"e-scheduled"};
+  s=String(s).toLowerCase();
+  if(/entrega|equipaje|baggage|reclaim|cinta|belt/.test(s))return{t:"Entrega equipajes",c:"e-equip"};
+  if(/aterriz|landed|arrived|llegad/.test(s))return{t:"Aterrizado",c:"e-landed"};
+  if(s==="en tierra"||s==="on ground"||s==="tierra")return{t:"En tierra",c:"e-landed"};
+  if(/embarque|boarding/.test(s))return{t:"Embarque",c:"e-boarding"};
+  if(/puerta|gate/.test(s))return{t:"Puerta",c:"e-gate"};
+  if(/taxi|rodaje/.test(s))return{t:"Rodaje",c:"e-taxiing"};
+  if(s==="active"||s==="en route"||s.indexOf("en vuelo")!==-1)return{t:"En vuelo",c:"e-active"};
+  if(s.indexOf("cancel")!==-1)return{t:"Cancelado",c:"e-cancelled"};
+  if(s.indexOf("delay")!==-1||s.indexOf("retras")!==-1)return{t:"Retrasado",c:"e-delayed"};
+  return{t:s.replace(/^./,m=>m.toUpperCase()),c:"e-scheduled"};
 }
 function normalizeFlight(v,tipo){
   v=v||{};
-  let explicit=(v.estadoAena||v.estado||v.status||v.rawStatus||v.situacion||v.observaciones||v.info||v.remarkPublic||v.remark||v.descripcion||"");
-  let el=eLabel(explicit);
-  v.estado=el.t;
-  v.estadoClass=el.c;
+  let txt=[v.estado,v.estadoAena,v.status,v.rawStatus,v.situacion,v.observaciones,v.info,v.remark,v.remarkPublic,v.descripcion].map(x=>x||"").join(" ").toLowerCase();
+  if(!v.estadoClass){let el=eLabel(v.estado||v.estadoAena||v.status||v.rawStatus||txt);v.estado=el.t;v.estadoClass=el.c;}
+
+  // IMPORTANTE LLEGADAS:
+  // Tener cinta asignada NO significa entrega de equipajes. AENA puede publicar la cinta antes de que llegue el avión.
+  // Solo mostramos "Entrega equipajes" si AENA lo dice explícitamente, o si el avión ya está aterrizado/pasado.
+  if(tipo==="llegadas"){
+    let explicitEquip=/entrega|equipaje|baggage|reclaim|belt/.test(txt);
+    let scheduledMin=hToMin(v.horaReal||v.horaProg||v.hora||"");
+    let diff=(scheduledMin===null)?99999:(scheduledMin-nowMinReal());
+    if(v.esManana)diff+=1440;
+
+    if(explicitEquip){
+      v.estado="Entrega equipajes";
+      v.estadoClass="e-equip";
+    }else if((v.estadoClass||"")==="e-active"){
+      // Si todavía falta para la llegada, es "En vuelo", aunque ya tenga cinta.
+      if(diff>0){v.estado="En vuelo";v.estadoClass="e-active";}
+      // Si ya pasó la hora real/estimada y venía como active, entonces sí puede pasar a equipajes.
+      else if(diff>=-45&&(v.cinta||v.sala)){v.estado="Entrega equipajes";v.estadoClass="e-equip";}
+    }else if((v.estadoClass||"")==="e-landed"&&(v.cinta||v.sala)&&diff<=0&&diff>=-60){
+      v.estado="Entrega equipajes";
+      v.estadoClass="e-equip";
+    }
+  }
   return v;
 }
 function extractLiveVuelos(res,tipo){
@@ -530,11 +550,11 @@ function renderAll(){updateTotalToday();renderList('arrivals',liveData.lle,'lleg
 async function loadLive(){
   if(loading)return;loading=true;document.getElementById('statusLive').textContent='Cargando';
   try{
-    let rL=await fetch(RAILWAY+"/vuelos-tv?tipo=llegadas",{cache:'no-store'});
+    let rL=await fetch(RAILWAY+"/vuelos?tipo=llegadas",{cache:'no-store'});
     let dateHeader=rL.headers.get('date');
     if(dateHeader){serverOffsetMs=new Date(dateHeader).getTime()-Date.now();}
     let jL=await rL.json();
-    let rS=await fetch(RAILWAY+"/vuelos-tv?tipo=salidas",{cache:'no-store'});let jS=await rS.json();
+    let rS=await fetch(RAILWAY+"/vuelos?tipo=salidas",{cache:'no-store'});let jS=await rS.json();
     liveData.lle=extractLiveVuelos(jL,'llegadas');liveData.sal=extractLiveVuelos(jS,'salidas');
     let n=nowReal();document.getElementById('updated').textContent=pad(n.getHours())+':'+pad(n.getMinutes());document.getElementById('statusLive').textContent='Live';
     renderAll();refreshLeft=REFRESH_SECONDS;

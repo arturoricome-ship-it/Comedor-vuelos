@@ -292,7 +292,7 @@ body{background:
 }
 
 
-/* Logo SOUTH redondo: mantiene el Index original, solo corrige la forma */
+/* Logo SOUTH redondo: solo corrige la forma */
 .logo{
   width:54px!important;
   height:54px!important;
@@ -322,6 +322,62 @@ body{background:
   }
 }
 
+/* Franja superior de información rápida */
+.insights{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  margin-top:-2px;
+}
+.insight{
+  min-width:0;
+  border:1px solid rgba(255,255,255,.07);
+  background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.025));
+  border-radius:14px;
+  padding:8px 10px;
+  overflow:hidden;
+}
+.insight .k{
+  color:var(--muted);
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:1.2px;
+  font-weight:900;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.insight .v{
+  margin-top:3px;
+  font-size:16px;
+  font-weight:900;
+  color:var(--gold2);
+  line-height:1.05;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.insight .v.green{color:var(--green)}
+.insight .v.cyan{color:var(--cyan)}
+.insight .v.orange{color:var(--orange)}
+.insight .v.muted{color:var(--muted)}
+@media(max-width:1200px){
+  .insights{
+    gap:6px;
+  }
+  .insight{
+    border-radius:11px;
+    padding:6px 7px;
+  }
+  .insight .k{
+    font-size:7px;
+    letter-spacing:.9px;
+  }
+  .insight .v{
+    font-size:12px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -340,17 +396,24 @@ body{background:
       <div class="pill live"><div class="label"><span class="live-dot"></span>Estado</div><div class="value" id="statusLive">Live</div></div>
       <div class="pill"><div class="label">Hora</div><div class="value" id="clock">--:--</div></div>
       <div class="pill"><div class="label">Actualizado</div><div class="value" id="updated">--:--</div></div>
-      <div class="pill"><div class="label">Recarga</div><div class="value" id="nextRefresh">5:00</div></div>
+      <div class="pill"><div class="label">Recarga de estados</div><div class="value" id="nextRefresh">5:00</div></div>
     </div>
   </header>
 
+  <section class="insights" aria-label="Resumen operativo">
+    <div class="insight"><div class="k">Próx. 60 min</div><div class="v green" id="insightNow">—</div></div>
+    <div class="insight"><div class="k">Próximo pico</div><div class="v orange" id="insightPeak">—</div></div>
+    <div class="insight"><div class="k">Remotos próximos</div><div class="v cyan" id="insightRemote">—</div></div>
+    <div class="insight"><div class="k">Último cambio</div><div class="v muted" id="insightChange">—</div></div>
+  </section>
+
   <main class="columns">
     <section class="panel">
-      <div class="panel-head"><div class="panel-title"><span class="ico">🛬</span>Llegadas</div><div class="panel-count" id="countArr">0 vuelos</div></div>
+      <div class="panel-head"><div class="panel-title"><span class="ico">🛬</span>Llegadas</div><div class="panel-count" id="countArr">0 llegadas</div></div>
       <div class="list" id="arrivals"><div class="loading">Cargando llegadas…</div></div>
     </section>
     <section class="panel">
-      <div class="panel-head"><div class="panel-title"><span class="ico">🛫</span>Salidas</div><div class="panel-count" id="countDep">0 vuelos</div></div>
+      <div class="panel-head"><div class="panel-title"><span class="ico">🛫</span>Salidas</div><div class="panel-count" id="countDep">0 salidas</div></div>
       <div class="list" id="departures"><div class="loading">Cargando salidas…</div></div>
     </section>
   </main>
@@ -493,8 +556,8 @@ function renderList(id,flights,tipo){
   let box=document.getElementById(id);
   let data=flights.filter(v=>isVisible(v,tipo)).sort(sortFlights);
   let total=data.length;
-  if(!total){document.getElementById(tipo==="llegadas"?"countArr":"countDep").textContent="0 vuelos";box.innerHTML='<div class="empty">Sin vuelos visibles ahora mismo</div>';return;}
-  document.getElementById(tipo==="llegadas"?"countArr":"countDep").textContent= total+" vuelos";
+  if(!total){document.getElementById(tipo==="llegadas"?"countArr":"countDep").textContent=tipo==="llegadas"?"0 llegadas":"0 salidas";box.innerHTML='<div class="empty">Sin movimientos visibles ahora mismo</div>';return;}
+  document.getElementById(tipo==="llegadas"?"countArr":"countDep").textContent= total+(tipo==="llegadas"?" llegadas":" salidas");
   let html="";let sep=false;
   data.forEach(v=>{
     if(v.esManana&&!sep){sep=true;let dm=new Date();dm.setDate(dm.getDate()+1);let meses=["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];html+=`<div class="sep">Mañana ${dm.getDate()} ${meses[dm.getMonth()]}</div>`;}
@@ -546,7 +609,100 @@ function updateCountdowns(){
     el.className='countdown'+(diff<=15?' ct-soon':diff<=60?' ct-now':'');
   });
 }
-function renderAll(){updateTotalToday();renderList('arrivals',liveData.lle,'llegadas');renderList('departures',liveData.sal,'salidas');}
+
+const CHANGE_CACHE_KEY="south_tv_last_snapshot_v1";
+
+function setText(id,txt){
+  let el=document.getElementById(id);
+  if(el)el.textContent=txt;
+}
+function allLiveFlights(){
+  return (liveData.lle||[]).map(v=>({...v,tipo:'llegadas'})).concat((liveData.sal||[]).map(v=>({...v,tipo:'salidas'})));
+}
+function calcActiveNow(){
+  // Dato objetivo: vuelos de hoy cuya hora real/programada cae entre ahora y los próximos 60 min.
+  // No depende del estado, así evitamos confundir "activo" con "en vuelo", "equipajes" o "embarque".
+  return allLiveFlights().filter(v=>{
+    if(v.esManana)return false;
+    let d=minutesUntil(v);
+    return d>=0 && d<=60;
+  }).length;
+}
+function calcPeak(){
+  // Pico de llegadas: mayor concentración de aviones que llegan en una ventana móvil de 25 minutos.
+  // Solo usa llegadas de hoy y mira desde ahora hasta fin de día.
+  const now=nowMinReal();
+  const windowMin=25;
+  const arrivals=(liveData.lle||[])
+    .filter(v=>!v.esManana)
+    .map(v=>hToMin(v.horaReal||v.horaProg||""))
+    .filter(m=>m!==null && m>=now)
+    .sort((a,b)=>a-b);
+
+  if(!arrivals.length)return "Sin llegadas";
+
+  let bestStart=arrivals[0], bestCount=1;
+  for(let i=0;i<arrivals.length;i++){
+    const start=arrivals[i];
+    const end=start+windowMin;
+    const count=arrivals.filter(m=>m>=start && m<=end).length;
+    if(count>bestCount){
+      bestCount=count;
+      bestStart=start;
+    }
+  }
+
+  const end=bestStart+windowMin;
+  return pad(Math.floor(bestStart/60))+":"+pad(bestStart%60)+"-"+pad(Math.floor(end/60))+":"+pad(end%60)+" · "+bestCount+" lleg.";
+}
+function calcRemoteNext(){
+  let rem=(liveData.sal||[]).filter(v=>{
+    if(v.esManana)return false;
+    let d=minutesUntil(v);
+    let g=gateOperationalLabel(v.puerta);
+    return g&&g.cls==="remote"&&d>=-10&&d<=180;
+  });
+  if(!rem.length)return "0";
+  let first=rem.sort(sortFlights)[0];
+  return rem.length+" · "+(first.numero||"")+" "+(first.puerta||"");
+}
+function makeSnapshot(){
+  let obj={};
+  allLiveFlights().forEach(v=>{
+    let k=(v.tipo||"")+"_"+(v.numero||"")+"_"+(v.horaProg||"");
+    obj[k]={
+      estado:v.estado||"",
+      horaReal:v.horaReal||"",
+      puerta:v.puerta||"",
+      cinta:v.cinta||""
+    };
+  });
+  return obj;
+}
+function updateChanges(){
+  let current=makeSnapshot();
+  let prev={};
+  try{prev=JSON.parse(localStorage.getItem(CHANGE_CACHE_KEY)||"{}");}catch(e){prev={};}
+  let msg="";
+  for(let k of Object.keys(current)){
+    if(!prev[k])continue;
+    let c=current[k],p=prev[k];
+    if(c.estado!==p.estado){msg=k.split("_")[1]+" "+c.estado;break;}
+    if(c.horaReal!==p.horaReal&&c.horaReal){msg=k.split("_")[1]+" "+c.horaReal;break;}
+    if(c.puerta!==p.puerta&&c.puerta){msg=k.split("_")[1]+" P."+c.puerta;break;}
+    if(c.cinta!==p.cinta&&c.cinta){msg=k.split("_")[1]+" C."+c.cinta;break;}
+  }
+  localStorage.setItem(CHANGE_CACHE_KEY,JSON.stringify(current));
+  return msg||"Sin cambios";
+}
+function updateInsights(){
+  setText("insightNow",calcActiveNow()+" vuelos");
+  setText("insightPeak",calcPeak());
+  setText("insightRemote",calcRemoteNext());
+  setText("insightChange",updateChanges());
+}
+function renderAll(){updateTotalToday();updateInsights();renderList('arrivals',liveData.lle,'llegadas');renderList('departures',liveData.sal,'salidas');}
+
 async function loadLive(){
   if(loading)return;loading=true;document.getElementById('statusLive').textContent='Cargando';
   try{

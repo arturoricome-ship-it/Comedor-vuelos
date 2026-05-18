@@ -25,7 +25,7 @@ body{background:
 }
 #app{min-height:100vh;width:100%;display:flex;flex-direction:column;padding:18px 22px 20px;gap:16px}
 .header{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;min-height:78px;border-bottom:1px solid rgba(200,168,75,.35);padding-bottom:14px}
-.logo{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;color:#10203a;font-family:"Bebas Neue",sans-serif;font-size:30px;letter-spacing:.8px;box-shadow:0 8px 28px rgba(200,168,75,.24)}
+.logo{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#157f8e,#29b8cb 55%,#77dce8);display:flex;align-items:center;justify-content:center;color:#eef7f8;font-family:"Bebas Neue",sans-serif;font-size:30px;letter-spacing:.8px;box-shadow:0 8px 28px rgba(39,189,208,.22);border:1px solid rgba(119,220,232,.20)}
 .title h1{font-family:"Bebas Neue",sans-serif;font-size:48px;letter-spacing:3px;line-height:.9;color:var(--white)}
 .title .sub{margin-top:8px;color:var(--gold);font-size:15px;letter-spacing:2.7px;font-weight:800;text-transform:uppercase}
 .status-top{display:flex;gap:12px;align-items:stretch;justify-content:flex-end}
@@ -45,17 +45,190 @@ body{background:
 .footer{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:13px;font-weight:700;padding:0 4px}.footer b{color:var(--gold2)}.fs-btn{border:1px solid rgba(200,168,75,.35);background:rgba(200,168,75,.08);color:var(--gold2);border-radius:12px;padding:8px 12px;font:800 13px "Outfit";cursor:pointer}
 @media(max-width:1200px){.flight{grid-template-columns:92px minmax(0,1fr) 180px}.num{font-size:30px}.city{font-size:22px}.state{font-size:12px}.countdown{font-size:17px}.panel-title{font-size:34px}.title h1{font-size:40px}}
 @media(max-width:850px){#app{overflow:auto;height:auto;min-height:100vh}.columns{grid-template-columns:1fr}.header{grid-template-columns:auto 1fr}.status-top{grid-column:1/-1;justify-content:flex-start}.panel{min-height:70vh}.flight{grid-template-columns:84px 1fr 128px}.city{font-size:21px}.num{font-size:28px}.pill{min-width:100px}}
+
+/* === COMPACT TV MODE: más vuelos visibles en pantalla === */
+#app{
+  padding:8px 14px 10px!important;
+  gap:8px!important;
+}
+.header{
+  min-height:52px!important;
+  padding-bottom:8px!important;
+  gap:10px!important;
+  border-bottom-color:rgba(200,168,75,.26)!important;
+}
+.logo{
+  width:44px!important;
+  height:44px!important;
+  border-radius:13px!important;
+  font-size:20px!important;
+  box-shadow:none!important;
+}
+.title h1{
+  font-size:32px!important;
+  letter-spacing:2px!important;
+  line-height:.86!important;
+}
+.title .sub{
+  margin-top:4px!important;
+  font-size:10px!important;
+  letter-spacing:2px!important;
+}
+.status-top{
+  gap:7px!important;
+}
+.pill{
+  min-width:92px!important;
+  padding:6px 9px!important;
+  border-radius:12px!important;
+}
+.pill .label{
+  font-size:8px!important;
+  letter-spacing:1px!important;
+}
+.pill .value{
+  font-size:18px!important;
+  margin-top:0!important;
+}
+.live-dot{
+  width:7px!important;
+  height:7px!important;
+  margin-right:4px!important;
+}
+.columns{
+  gap:10px!important;
+}
+.panel{
+  border-radius:18px!important;
+}
+.panel-head{
+  padding:9px 12px!important;
+}
+.panel-title{
+  font-size:28px!important;
+  gap:8px!important;
+  letter-spacing:1.4px!important;
+}
+.panel-title .ico{
+  font-size:23px!important;
+}
+.panel-count{
+  font-size:13px!important;
+  padding:5px 10px!important;
+}
+.list{
+  padding:6px!important;
+  gap:5px!important;
+}
+.flight{
+  grid-template-columns:84px minmax(0,1fr) 132px!important;
+  gap:8px!important;
+  padding:6px 9px!important;
+  min-height:50px!important;
+  border-radius:12px!important;
+}
+.flight::before{
+  width:4px!important;
+}
+.num{
+  font-size:26px!important;
+  letter-spacing:1.2px!important;
+}
+.subnum{
+  font-size:9px!important;
+  margin-top:1px!important;
+}
+.city{
+  font-size:19px!important;
+  line-height:1!important;
+}
+.time{
+  font-size:12px!important;
+  margin-top:2px!important;
+}
+.oldtime{
+  margin-right:5px!important;
+}
+.right{
+  gap:3px!important;
+}
+.state{
+  font-size:10px!important;
+  padding:4px 7px!important;
+}
+.countdown{
+  font-size:14px!important;
+}
+.footer{
+  font-size:10px!important;
+  padding-top:2px!important;
+}
+.fs-btn{
+  padding:5px 8px!important;
+  font-size:10px!important;
+  border-radius:9px!important;
+}
+.empty,.error,.loading{
+  font-size:17px!important;
+}
+@media(max-width:1200px){
+  #app{padding:7px 10px 9px!important;gap:7px!important}
+  .header{min-height:46px!important;padding-bottom:7px!important}
+  .logo{width:38px!important;height:38px!important;font-size:17px!important}
+  .title h1{font-size:27px!important}
+  .title .sub{font-size:8px!important}
+  .pill{min-width:76px!important;padding:5px 7px!important}
+  .pill .label{font-size:7px!important}
+  .pill .value{font-size:15px!important}
+  .columns{gap:8px!important}
+  .panel-head{padding:7px 10px!important}
+  .panel-title{font-size:24px!important}
+  .panel-count{font-size:11px!important;padding:4px 8px!important}
+  .list{padding:5px!important;gap:4px!important}
+  .flight{grid-template-columns:74px minmax(0,1fr) 118px!important;min-height:44px!important;padding:5px 8px!important;gap:7px!important;border-radius:11px!important}
+  .num{font-size:23px!important}
+  .subnum{font-size:8px!important}
+  .city{font-size:16px!important}
+  .time{font-size:10px!important}
+  .state{font-size:8.5px!important;padding:3px 6px!important}
+  .countdown{font-size:12px!important}
+  .footer{font-size:8px!important}
+  .fs-btn{font-size:8px!important;padding:4px 7px!important}
+}
+
+
+/* Ajustes pedidos: logo más holgado, dos columnas también en fullscreen y latido <=15 min */
+.logo{border-radius:50%!important;padding:7px!important;font-size:19px!important;letter-spacing:.5px!important} 
+@media(max-width:1200px){
+  .logo{width:46px!important;height:46px!important;font-size:13px!important;padding:6px!important;letter-spacing:.4px!important}
+}
+@media(max-width:850px){
+  .columns{grid-template-columns:1fr 1fr!important}
+  .header{grid-template-columns:auto 1fr auto!important}
+  .status-top{grid-column:auto!important;justify-content:flex-end!important}
+  .panel{min-height:0!important}
+}
+.countdown.ct-soon{color:var(--red)!important;animation:heartBeat 1s ease-in-out infinite!important;transform-origin:center}
+@keyframes heartBeat{
+  0%,100%{transform:scale(1);opacity:1}
+  14%{transform:scale(1.16);opacity:1}
+  28%{transform:scale(1);opacity:.92}
+  42%{transform:scale(1.16);opacity:1}
+  70%{transform:scale(1);opacity:1}
+}
+
 </style>
 </head>
 <body>
 <div id="app">
   <header class="header">
-    <div class="logo">South</div>
+    <div class="logo">SOUTH</div>
     <div class="title">
       <h1>Vuelos ALC en tiempo real</h1>
       <div class="sub">Pantalla operativa · Alicante</div>
     </div>
     <div class="status-top">
+      <div class="pill"><div class="label">Total hoy</div><div class="value" id="totalToday">0</div></div>
       <div class="pill live"><div class="label"><span class="live-dot"></span>Estado</div><div class="value" id="statusLive">Live</div></div>
       <div class="pill"><div class="label">Hora</div><div class="value" id="clock">--:--</div></div>
       <div class="pill"><div class="label">Actualizado</div><div class="value" id="updated">--:--</div></div>
@@ -197,6 +370,12 @@ function renderList(id,flights,tipo){
   box.innerHTML=html;
   updateCountdowns();
 }
+function updateTotalToday(){
+  let total=(liveData.lle||[]).filter(v=>!v.esManana).length + (liveData.sal||[]).filter(v=>!v.esManana).length;
+  let el=document.getElementById('totalToday');
+  if(el)el.textContent=String(total);
+}
+
 function updateCountdowns(){
   document.querySelectorAll('.flight').forEach(row=>{
     let el=row.querySelector('.countdown');if(!el)return;
@@ -211,7 +390,7 @@ function updateCountdowns(){
     el.className='countdown'+(diff<=15?' ct-soon':diff<=60?' ct-now':'');
   });
 }
-function renderAll(){renderList('arrivals',liveData.lle,'llegadas');renderList('departures',liveData.sal,'salidas');}
+function renderAll(){updateTotalToday();renderList('arrivals',liveData.lle,'llegadas');renderList('departures',liveData.sal,'salidas');}
 async function loadLive(){
   if(loading)return;loading=true;document.getElementById('statusLive').textContent='Cargando';
   try{

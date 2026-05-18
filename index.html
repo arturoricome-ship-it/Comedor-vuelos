@@ -597,6 +597,68 @@ body::before{
   }
 }
 
+
+/* === Ajuste de jerarquía visual del header === */
+.header{
+  gap:16px!important;
+  align-items:center!important;
+}
+.title{
+  min-width:0;
+  padding-left:16px;
+  margin-left:2px;
+  border-left:1px solid rgba(200,168,75,.22);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-self:center;
+}
+.title h1{
+  font-size:27px!important;
+  letter-spacing:1.35px!important;
+  line-height:.95!important;
+}
+.title .sub{
+  margin-top:3px!important;
+  font-size:7px!important;
+  letter-spacing:1.55px!important;
+}
+body::before{
+  background-size:min(98vw,98vh)!important;
+  opacity:.095!important;
+}
+.logo{
+  width:126px!important;
+  height:38px!important;
+  min-width:126px!important;
+  max-width:126px!important;
+  flex-basis:126px!important;
+  background-position:left center!important;
+}
+@media(max-width:1200px){
+  .header{
+    gap:12px!important;
+  }
+  .title{
+    padding-left:12px!important;
+  }
+  .title h1{
+    font-size:23px!important;
+    letter-spacing:1.1px!important;
+  }
+  .title .sub{
+    font-size:6.2px!important;
+    letter-spacing:1.2px!important;
+  }
+  .logo{
+    width:112px!important;
+    height:34px!important;
+    min-width:112px!important;
+    max-width:112px!important;
+    flex-basis:112px!important;
+  }
+}
+
 </style>
 </head>
 <body>

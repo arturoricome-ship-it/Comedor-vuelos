@@ -684,7 +684,21 @@ body::before{
 
 .header .title{align-self:center}
 .header .status-top .pill{background:rgba(14,23,39,.22);backdrop-filter:blur(4px)}
-.header .logo{background:linear-gradient(135deg,#157f8e,#29b8cb 55%,#77dce8)!important}
+
+
+/* Reforzar logo real SOUTH */
+.logo{
+  background:transparent!important;
+  background-image:url("south-logo.png")!important;
+  background-repeat:no-repeat!important;
+  background-position:left center!important;
+  background-size:contain!important;
+  font-size:0!important;
+  color:transparent!important;
+  border:none!important;
+  box-shadow:none!important;
+  border-radius:0!important;
+}
 
 </style>
 </head>
@@ -964,14 +978,25 @@ function allLiveFlights(){
 }
 function calcActiveNow(){
   // Próximos 60 min: solo movimientos pendientes.
-  // No cuentan los que ya están en tierra, en equipajes, finalizados o cancelados.
+  // En llegadas, cuenta únicamente aviones que todavía no han llegado.
+  // No cuentan equipajes, en tierra, finalizados, cancelados ni llegadas con hora real/estimada ya pasada.
   return allLiveFlights().filter(v=>{
     if(v.esManana)return false;
+
     const cls=v.estadoClass||"";
     const estado=String(v.estado||"").toLowerCase();
+
     if(cls==="e-landed"||cls==="e-equip"||cls==="e-final"||cls==="e-cancelled")return false;
-    if(/tierra|equipaje|finaliz|cancel/.test(estado))return false;
-    let d=minutesUntil(v);
+    if(/tierra|equipaje|equipajes|finaliz|cancel/.test(estado))return false;
+
+    const d=minutesUntil(v);
+
+    if(v.tipo==="llegadas"){
+      // Si ya ha pasado su hora real/estimada, lo consideramos llegado o fuera del objetivo.
+      return d>0 && d<=60;
+    }
+
+    // Salidas pendientes de los próximos 60 min.
     return d>=0 && d<=60;
   }).length;
 }

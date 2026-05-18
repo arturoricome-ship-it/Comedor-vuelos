@@ -566,16 +566,10 @@ body{background:
 
 /* === Logos reales SOUTH por archivos externos === */
 body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
-  background-image:url("south-o-bg.png");
-  background-repeat:no-repeat;
-  background-position:center center;
-  background-size:min(92vw,92vh);
-  opacity:.055;
+  content:none!important;
+  display:none!important;
+  background-image:none!important;
+  opacity:0!important;
 }
 #app{
   position:relative;
@@ -637,8 +631,10 @@ body::before{
   letter-spacing:1.55px!important;
 }
 body::before{
-  background-size:min(98vw,98vh)!important;
-  opacity:.095!important;
+  content:none!important;
+  display:none!important;
+  background-image:none!important;
+  opacity:0!important;
 }
 .logo{
   width:126px!important;
@@ -700,6 +696,15 @@ body::before{
 }
 .insight-remote .v.cyan{
   color:var(--cyan)!important;
+}
+
+
+/* Sin logo/O de fondo definitivamente */
+body::before{
+  content:none!important;
+  display:none!important;
+  background-image:none!important;
+  opacity:0!important;
 }
 
 </style>

@@ -550,12 +550,59 @@ body{background:
   }
 }
 
+
+/* === Logos reales SOUTH por archivos externos === */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background-image:url("south-o-bg.png");
+  background-repeat:no-repeat;
+  background-position:center center;
+  background-size:min(92vw,92vh);
+  opacity:.055;
+}
+#app{
+  position:relative;
+  z-index:1;
+}
+.logo{
+  width:142px!important;
+  height:44px!important;
+  min-width:142px!important;
+  max-width:142px!important;
+  flex-basis:142px!important;
+  background:transparent!important;
+  background-image:url("south-logo.png")!important;
+  background-repeat:no-repeat!important;
+  background-position:left center!important;
+  background-size:contain!important;
+  border:none!important;
+  box-shadow:none!important;
+  border-radius:0!important;
+  padding:0!important;
+  overflow:visible!important;
+  font-size:0!important;
+  color:transparent!important;
+}
+@media(max-width:1200px){
+  .logo{
+    width:122px!important;
+    height:38px!important;
+    min-width:122px!important;
+    max-width:122px!important;
+    flex-basis:122px!important;
+  }
+}
+
 </style>
 </head>
 <body>
 <div id="app">
   <header class="header">
-    <div class="logo">SOUTH</div>
+    <div class="logo" aria-label="SOUTH"></div>
     <div class="title">
       <h1>Vuelos ALC en tiempo real</h1>
       <div class="sub">Pantalla operativa · Alicante</div>

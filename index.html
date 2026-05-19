@@ -971,105 +971,114 @@ html,body{
 }
 
 
-/* === MODO TV LEJOS: menos vuelos, mucho más legibles ===
-   Pensado para ver 3-4 movimientos principales desde distancia. */
-html,body{
-  height:100%!important;
-  overflow:auto!important;
-}
+/* === MODO TV EQUILIBRADO: letras grandes pero ciudades completas ===
+   No tan grande como la versión anterior. Se prioriza que el destino no se corte. */
 
 #app{
-  padding:18px 42px 16px!important;
-  gap:14px!important;
+  padding:18px 38px 14px!important;
+  gap:13px!important;
 }
 
-/* Mantener cabecera, pero sin robar demasiada altura */
+/* Cabecera: números superiores más legibles, sin hacerla enorme */
 .header{
-  min-height:72px!important;
-  padding-bottom:12px!important;
-  gap:22px!important;
-  column-gap:22px!important;
+  min-height:68px!important;
+  padding-bottom:11px!important;
+  gap:18px!important;
+  column-gap:18px!important;
 }
 
 .logo.logo-real{
-  width:168px!important;
-  height:54px!important;
-  min-width:168px!important;
-  max-width:168px!important;
-  flex-basis:168px!important;
+  width:158px!important;
+  height:50px!important;
+  min-width:158px!important;
+  max-width:158px!important;
+  flex-basis:158px!important;
+}
+
+.title{
+  padding-left:14px!important;
 }
 
 .title h1{
-  font-size:36px!important;
-  letter-spacing:1.9px!important;
+  font-size:33px!important;
+  letter-spacing:1.75px!important;
   line-height:.92!important;
 }
 
 .title .sub{
-  font-size:8.5px!important;
-  margin-top:5px!important;
-  letter-spacing:1.7px!important;
+  font-size:8px!important;
+  letter-spacing:1.55px!important;
+  margin-top:4px!important;
 }
 
 .status-top{
-  gap:10px!important;
+  gap:8px!important;
 }
 
 .pill{
   min-width:96px!important;
-  padding:8px 10px!important;
+  padding:8px 9px!important;
   border-radius:14px!important;
 }
 
 .pill .label{
-  font-size:8px!important;
-  letter-spacing:1px!important;
+  font-size:7.8px!important;
+  letter-spacing:.9px!important;
 }
 
 .pill .value{
-  font-size:18px!important;
+  font-size:20px!important;
+  line-height:1.05!important;
+}
+
+.header-center{
+  min-width:166px!important;
+  gap:8px!important;
+}
+
+.pill-total,.pill-tomorrow{
+  min-width:92px!important;
 }
 
 /* Paneles */
 .columns{
-  gap:18px!important;
+  gap:15px!important;
 }
 
 .panel{
-  border-radius:24px!important;
+  border-radius:22px!important;
 }
 
 .panel-head{
-  padding:16px 18px!important;
+  padding:14px 16px!important;
 }
 
 .panel-title{
-  font-size:42px!important;
-  gap:13px!important;
-  letter-spacing:1.8px!important;
+  font-size:38px!important;
+  gap:11px!important;
 }
 
 .panel-title .ico{
-  font-size:34px!important;
+  font-size:32px!important;
 }
 
 .panel-count{
   font-size:18px!important;
-  padding:8px 14px!important;
+  padding:7px 13px!important;
 }
 
-/* Tarjetas de vuelo mucho más grandes */
+/* Tarjetas: más grandes, pero dejando más ancho al destino */
 .list{
-  padding:12px!important;
-  gap:12px!important;
+  padding:10px!important;
+  gap:10px!important;
 }
 
 .flight{
-  grid-template-columns:124px minmax(0,1fr) 116px 158px!important;
-  min-height:92px!important;
-  padding:14px 16px!important;
-  gap:16px!important;
-  border-radius:20px!important;
+  grid-template-columns:104px minmax(0,1fr) 86px 128px!important;
+  min-height:78px!important;
+  padding:12px 13px!important;
+  gap:11px!important;
+  border-radius:18px!important;
 }
 
 .flight::before{
@@ -1077,85 +1086,88 @@ html,body{
 }
 
 .num{
-  font-size:44px!important;
-  letter-spacing:1.8px!important;
+  font-size:39px!important;
+  letter-spacing:1.6px!important;
 }
 
 .subnum{
-  font-size:14px!important;
-  margin-top:6px!important;
+  font-size:13px!important;
+  margin-top:5px!important;
 }
 
 .city{
-  font-size:32px!important;
+  font-size:27px!important;
   line-height:1.04!important;
+  max-width:100%!important;
 }
 
 .time{
-  font-size:18px!important;
-  margin-top:6px!important;
+  font-size:19px!important;
+  margin-top:5px!important;
 }
 
 .oldtime{
-  margin-right:8px!important;
+  margin-right:7px!important;
 }
 
+/* Parking / remoto más visible, pero sin robar demasiado ancho */
 .gate-note{
-  font-size:11px!important;
-  padding:5px 10px!important;
-  letter-spacing:.35px!important;
+  font-size:11.5px!important;
+  padding:5px 8px!important;
+  letter-spacing:.28px!important;
 }
 
+/* Estado y cuenta atrás legibles */
 .state{
-  font-size:14px!important;
-  padding:7px 11px!important;
+  font-size:13px!important;
+  padding:6px 9px!important;
 }
 
 .countdown{
-  font-size:21px!important;
+  font-size:20px!important;
 }
 
 .sep{
-  font-size:22px!important;
-  margin:12px 10px!important;
+  font-size:21px!important;
+  margin:10px 10px!important;
 }
 
 .footer{
   display:none!important;
 }
 
-/* En TV/navegadores con menos ancho mantenemos legibilidad */
+/* Si la TV/navegador reporta menos ancho */
 @media(max-width:1200px){
   #app{
-    padding:14px 34px 14px!important;
-    gap:12px!important;
+    padding:14px 30px 12px!important;
+    gap:11px!important;
   }
 
   .header{
-    min-height:64px!important;
-    padding-bottom:10px!important;
-    gap:18px!important;
-    column-gap:18px!important;
+    min-height:62px!important;
+    padding-bottom:9px!important;
+    gap:14px!important;
+    column-gap:14px!important;
   }
 
   .logo.logo-real{
-    width:150px!important;
-    height:48px!important;
-    min-width:150px!important;
-    max-width:150px!important;
-    flex-basis:150px!important;
+    width:142px!important;
+    height:46px!important;
+    min-width:142px!important;
+    max-width:142px!important;
+    flex-basis:142px!important;
   }
 
   .title h1{
-    font-size:31px!important;
+    font-size:29px!important;
   }
 
   .title .sub{
-    font-size:7.5px!important;
+    font-size:7.2px!important;
   }
 
   .pill{
-    min-width:82px!important;
+    min-width:84px!important;
     padding:7px 8px!important;
   }
 
@@ -1164,271 +1176,51 @@ html,body{
   }
 
   .pill .value{
-    font-size:16px!important;
-  }
-
-  .panel-head{
-    padding:13px 15px!important;
+    font-size:18px!important;
   }
 
   .panel-title{
-    font-size:36px!important;
+    font-size:34px!important;
   }
 
   .panel-count{
     font-size:16px!important;
   }
 
-  .list{
-    padding:10px!important;
-    gap:10px!important;
-  }
-
   .flight{
-    grid-template-columns:106px minmax(0,1fr) 96px 136px!important;
-    min-height:80px!important;
-    padding:12px 14px!important;
-    gap:13px!important;
+    grid-template-columns:94px minmax(0,1fr) 76px 116px!important;
+    min-height:70px!important;
+    padding:10px 11px!important;
+    gap:9px!important;
   }
 
   .num{
-    font-size:38px!important;
+    font-size:35px!important;
   }
 
   .subnum{
-    font-size:12px!important;
+    font-size:11.5px!important;
   }
 
   .city{
-    font-size:27px!important;
+    font-size:24px!important;
   }
 
   .time{
-    font-size:16px!important;
+    font-size:17px!important;
+  }
+
+  .gate-note{
+    font-size:10px!important;
+    padding:4px 7px!important;
   }
 
   .state{
-    font-size:12px!important;
+    font-size:11.5px!important;
   }
 
   .countdown{
     font-size:18px!important;
-  }
-}
-
-
-/* === MODO TV MUY LEJOS: letras y números más grandes ===
-   Prioriza lectura desde distancia aunque entren menos vuelos. */
-#app{
-  padding:18px 42px 14px!important;
-  gap:16px!important;
-}
-
-/* Números superiores más grandes */
-.pill{
-  min-width:112px!important;
-  padding:10px 12px!important;
-  border-radius:16px!important;
-}
-
-.pill .label{
-  font-size:9.5px!important;
-  letter-spacing:1.05px!important;
-}
-
-.pill .value{
-  font-size:23px!important;
-  line-height:1.05!important;
-}
-
-.header-center{
-  min-width:188px!important;
-  gap:12px!important;
-}
-
-.pill-total,.pill-tomorrow{
-  min-width:112px!important;
-}
-
-/* Logo y título más legibles */
-.logo.logo-real{
-  width:180px!important;
-  height:58px!important;
-  min-width:180px!important;
-  max-width:180px!important;
-  flex-basis:180px!important;
-}
-
-.title h1{
-  font-size:40px!important;
-  letter-spacing:2px!important;
-}
-
-.title .sub{
-  font-size:10px!important;
-  letter-spacing:1.85px!important;
-}
-
-/* Cabeceras de columnas */
-.panel-head{
-  padding:18px 20px!important;
-}
-
-.panel-title{
-  font-size:48px!important;
-}
-
-.panel-title .ico{
-  font-size:38px!important;
-}
-
-.panel-count{
-  font-size:22px!important;
-  padding:9px 16px!important;
-}
-
-/* Tarjetas de vuelo: más grandes */
-.list{
-  padding:14px!important;
-  gap:14px!important;
-}
-
-.flight{
-  grid-template-columns:138px minmax(0,1fr) 132px 176px!important;
-  min-height:108px!important;
-  padding:17px 18px!important;
-  gap:18px!important;
-  border-radius:22px!important;
-}
-
-.flight::before{
-  width:7px!important;
-}
-
-.num{
-  font-size:52px!important;
-  letter-spacing:2px!important;
-}
-
-.subnum{
-  font-size:17px!important;
-  margin-top:7px!important;
-}
-
-.city{
-  font-size:38px!important;
-  line-height:1.03!important;
-}
-
-.time{
-  font-size:23px!important;
-  margin-top:7px!important;
-}
-
-.oldtime{
-  margin-right:10px!important;
-}
-
-/* Remoto / Parking más grande */
-.gate-note{
-  font-size:14px!important;
-  padding:6px 12px!important;
-  letter-spacing:.45px!important;
-}
-
-/* Estado y cuenta atrás más grandes */
-.state{
-  font-size:17px!important;
-  padding:8px 13px!important;
-}
-
-.countdown{
-  font-size:26px!important;
-}
-
-.sep{
-  font-size:26px!important;
-  margin:14px 12px!important;
-}
-
-/* Si el navegador de la TV reporta poco ancho */
-@media(max-width:1200px){
-  #app{
-    padding:14px 34px 12px!important;
-    gap:13px!important;
-  }
-
-  .logo.logo-real{
-    width:160px!important;
-    height:52px!important;
-    min-width:160px!important;
-    max-width:160px!important;
-    flex-basis:160px!important;
-  }
-
-  .title h1{
-    font-size:34px!important;
-  }
-
-  .title .sub{
-    font-size:8.5px!important;
-  }
-
-  .pill{
-    min-width:96px!important;
-    padding:9px 10px!important;
-  }
-
-  .pill .label{
-    font-size:8px!important;
-  }
-
-  .pill .value{
-    font-size:20px!important;
-  }
-
-  .panel-title{
-    font-size:42px!important;
-  }
-
-  .panel-count{
-    font-size:19px!important;
-  }
-
-  .flight{
-    grid-template-columns:122px minmax(0,1fr) 116px 154px!important;
-    min-height:96px!important;
-    padding:15px 16px!important;
-    gap:15px!important;
-  }
-
-  .num{
-    font-size:46px!important;
-  }
-
-  .subnum{
-    font-size:15px!important;
-  }
-
-  .city{
-    font-size:33px!important;
-  }
-
-  .time{
-    font-size:20px!important;
-  }
-
-  .gate-note{
-    font-size:12.5px!important;
-    padding:6px 10px!important;
-  }
-
-  .state{
-    font-size:15px!important;
-  }
-
-  .countdown{
-    font-size:23px!important;
   }
 }
 

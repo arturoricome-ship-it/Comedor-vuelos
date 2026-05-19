@@ -1143,6 +1143,169 @@ html,body{
   .footer{min-height:28px!important;flex-basis:28px!important;}
 }
 
+
+
+/* === FIX TV V4: encuadre tipo referencia + controles reales === */
+#app{padding:12px 28px 8px!important;}
+.header{grid-template-columns:140px minmax(240px,1fr) auto!important;gap:18px!important;min-height:104px!important;}
+.logo{width:120px!important;height:54px!important;min-width:120px!important;max-width:120px!important;flex-basis:120px!important;background-position:center center!important;}
+.title h1{font-size:36px!important;max-width:410px!important;}
+.title .sub{font-size:13px!important;}
+.status-top{gap:12px!important;}
+.pill{min-width:106px!important;padding:9px 11px!important;}
+.columns{gap:16px!important;}
+.panel-head{min-height:70px!important;padding:16px 16px!important;}
+.panel-title{font-size:38px!important;}
+.list{padding:11px!important;gap:9px!important;}
+.flight{grid-template-columns:clamp(92px,21%,116px) minmax(0,1fr) clamp(62px,12%,84px) clamp(88px,18%,112px)!important;min-height:68px!important;padding:9px 12px!important;gap:14px!important;}
+.num{font-size:calc(30px * var(--tv-font-scale))!important;}
+.city{font-size:calc(24px * var(--tv-font-scale))!important;}
+.subnum{font-size:calc(11px * var(--tv-font-scale))!important;}
+.time{font-size:calc(14px * var(--tv-font-scale))!important;}
+.state{font-size:calc(12px * var(--tv-font-scale))!important;}
+.countdown{font-size:calc(17px * var(--tv-font-scale))!important;}
+.gate-note{font-size:calc(9px * var(--tv-font-scale))!important;}
+.footer{min-height:34px!important;flex-basis:34px!important;}
+.footer-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:6px!important;}
+.font-btn,.fs-btn{cursor:pointer!important;pointer-events:auto!important;user-select:none!important;}
+@media(max-width:1200px){
+  #app{padding:10px 24px 7px!important;}
+  .header{grid-template-columns:118px minmax(200px,1fr) auto!important;min-height:96px!important;gap:15px!important;}
+  .logo{width:104px!important;height:48px!important;min-width:104px!important;max-width:104px!important;flex-basis:104px!important;}
+  .title h1{font-size:32px!important;max-width:350px!important;}
+  .title .sub{font-size:11px!important;}
+  .pill{min-width:88px!important;padding:8px 8px!important;}
+  .pill .value{font-size:20px!important;}
+  .panel-title{font-size:34px!important;}
+  .flight{grid-template-columns:82px minmax(0,1fr) 58px 92px!important;min-height:60px!important;gap:11px!important;padding:8px 10px!important;}
+  .num{font-size:calc(26px * var(--tv-font-scale))!important;}
+  .city{font-size:calc(21px * var(--tv-font-scale))!important;}
+  .state{font-size:calc(10px * var(--tv-font-scale))!important;}
+  .countdown{font-size:calc(14px * var(--tv-font-scale))!important;}
+}
+@media(max-width:900px){
+  #app{padding:8px 20px 6px!important;}
+  .header{grid-template-columns:96px minmax(160px,1fr) auto!important;min-height:84px!important;}
+  .logo{width:86px!important;height:40px!important;min-width:86px!important;max-width:86px!important;flex-basis:86px!important;}
+  .title h1{font-size:27px!important;max-width:285px!important;}
+  .title .sub{font-size:9px!important;}
+  .status-top{gap:6px!important;}
+  .pill{min-width:74px!important;padding:6px 7px!important;}
+  .pill .label{font-size:6.8px!important;}
+  .pill .value{font-size:16px!important;}
+  .flight{grid-template-columns:72px minmax(0,1fr) 48px 78px!important;min-height:52px!important;gap:8px!important;padding:7px 8px!important;}
+  .num{font-size:calc(22px * var(--tv-font-scale))!important;}
+  .city{font-size:calc(18px * var(--tv-font-scale))!important;}
+  .subnum{font-size:calc(8px * var(--tv-font-scale))!important;}
+  .time{font-size:calc(10px * var(--tv-font-scale))!important;}
+  .state{font-size:calc(8px * var(--tv-font-scale))!important;}
+  .countdown{font-size:calc(11px * var(--tv-font-scale))!important;}
+  .gate-note{font-size:calc(6.3px * var(--tv-font-scale))!important;}
+}
+
+
+
+/* === FIX TV V5: controles siempre visibles, sin depender del scroll === */
+html,body{
+  overflow:auto!important;
+}
+#app{
+  padding-bottom:46px!important;
+}
+.footer{
+  position:fixed!important;
+  left:0!important;
+  right:0!important;
+  bottom:0!important;
+  z-index:99999!important;
+  min-height:34px!important;
+  flex-basis:auto!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:10px!important;
+  padding:5px 10px!important;
+  background:rgba(8,17,28,.92)!important;
+  backdrop-filter:blur(6px)!important;
+  border-top:1px solid rgba(255,255,255,.12)!important;
+}
+.footer>div:first-child{
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+.footer-actions{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:6px!important;
+  flex:0 0 auto!important;
+}
+.font-btn,.fs-btn{
+  pointer-events:auto!important;
+  cursor:pointer!important;
+  touch-action:manipulation!important;
+  padding:6px 9px!important;
+  min-height:28px!important;
+}
+.font-indicator{
+  min-width:42px!important;
+  text-align:center!important;
+  color:var(--gold2)!important;
+  font-weight:900!important;
+}
+@media(max-width:900px){
+  #app{padding-bottom:48px!important;}
+  .footer{font-size:9px!important;padding:5px 7px!important;}
+  .font-btn,.fs-btn{font-size:9px!important;padding:6px 7px!important;}
+}
+
+
+/* === FIX TV V6: scroll real hasta el final === */
+html,body{
+  height:auto!important;
+  min-height:100%!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+}
+#app{
+  min-height:100vh!important;
+  height:auto!important;
+  overflow:visible!important;
+  padding-bottom:10px!important;
+}
+.footer{
+  position:static!important;
+  left:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  z-index:auto!important;
+  min-height:34px!important;
+  flex-basis:auto!important;
+  background:transparent!important;
+  backdrop-filter:none!important;
+  border-top:none!important;
+}
+.columns{
+  flex:0 0 auto!important;
+  height:auto!important;
+  min-height:0!important;
+  align-items:start!important;
+}
+.panel{
+  height:auto!important;
+  min-height:0!important;
+}
+.list{
+  height:auto!important;
+  max-height:none!important;
+  overflow:visible!important;
+}
+@media(max-width:900px){
+  #app{padding-bottom:8px!important;}
+}
+
 </style>
 </head>
 <body>
@@ -1359,6 +1522,7 @@ function countRemainingToday(tipo){
 function renderList(id,flights,tipo){
   let box=document.getElementById(id);
   let data=flights.filter(v=>isVisible(v,tipo)).sort(sortFlights);
+  if(!data.length && flights.length){ data=flights.slice().sort(sortFlights).slice(0,8); }
   let total=data.length;
   let remaining=countRemainingToday(tipo);
   document.getElementById(tipo==="llegadas"?"countArr":"countDep").textContent=remaining+" restantes";
@@ -1568,7 +1732,7 @@ loadLive();setInterval(tick,1000);setInterval(()=>{renderAll();},30000);
 
 /* === Controles de fuente con ajuste automático para que no se corte texto === */
 const FONT_SCALE_KEY="south_tv_font_scale_v1";
-const FONT_STEPS=[0.92,0.96,1.00,1.03,1.06,1.09,1.12];
+const FONT_STEPS=[0.86,0.92,1.00,1.08,1.16,1.24,1.32];
 let fontStepIndex=2;
 function readFontScale(){
   let saved=parseFloat(localStorage.getItem(FONT_SCALE_KEY)||"1");
@@ -1593,19 +1757,19 @@ function resetFontScale(){
 }
 function fitOneLine(el,minPx){
   if(!el)return;
-  el.style.fontSize='';
-  el.style.letterSpacing='';
+  el.style.removeProperty('font-size');
+  el.style.removeProperty('letter-spacing');
   const cs=getComputedStyle(el);
   let size=parseFloat(cs.fontSize)||12;
   let min=minPx||7;
   let guard=0;
   while(el.scrollWidth>el.clientWidth+1 && size>min && guard<34){
     size-=0.5;
-    el.style.fontSize=size+'px';
+    el.style.setProperty('font-size',size+'px','important');
     guard++;
   }
   if(el.scrollWidth>el.clientWidth+1){
-    el.style.letterSpacing='-.45px';
+    el.style.setProperty('letter-spacing','-.45px','important');
   }
 }
 function fitFlightText(){

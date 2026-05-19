@@ -871,31 +871,38 @@ body::before{
   .header-center{left:50%!important;}
 }
 
-/* === ZOOM TV: encoge/expande toda la página para ajustar bordes === */
-.tv-zoom-group{
+/* === MÁRGENES TV: empuja el contenido hacia adentro para que no se corte === */
+:root{ --tv-safe: 0px; }
+#app{
+  padding-top:   calc(8px  + var(--tv-safe)) !important;
+  padding-right: calc(14px + var(--tv-safe)) !important;
+  padding-bottom:calc(10px + var(--tv-safe)) !important;
+  padding-left:  calc(14px + var(--tv-safe)) !important;
+}
+.tv-margin-group{
   display:flex;align-items:center;gap:3px;
   border:1px solid rgba(96,165,250,.4);
   background:rgba(96,165,250,.08);
-  border-radius:10px;padding:2px 3px;
+  border-radius:10px;padding:2px 4px;
 }
-.tv-zoom-btn{
+.tv-margin-btn{
   width:28px;height:26px;border-radius:7px;
   border:1px solid rgba(96,165,250,.55);
   background:rgba(96,165,250,.14);
   color:#93c5fd;font:900 17px/1 "Outfit",sans-serif;
   cursor:pointer;display:flex;align-items:center;justify-content:center;
 }
-.tv-zoom-btn:active{opacity:.7;}
-.tv-zoom-lbl{
-  min-width:34px;text-align:center;
+.tv-margin-btn:active{opacity:.7;}
+.tv-margin-lbl{
+  min-width:28px;text-align:center;
   color:#93c5fd;font-size:9px;font-weight:900;letter-spacing:.2px;
 }
-.tv-zoom-rst{
+.tv-margin-rst{
   border:1px solid rgba(96,165,250,.4);background:rgba(96,165,250,.10);
   color:#93c5fd;border-radius:7px;padding:4px 6px;
   font:900 8.5px "Outfit",sans-serif;cursor:pointer;white-space:nowrap;
 }
-.tv-zoom-rst:active{opacity:.7;}
+.tv-margin-rst:active{opacity:.7;}
 </style>
 </head>
 <body>
@@ -941,12 +948,12 @@ body::before{
 
   <footer class="footer">
     <div style="display:flex;align-items:center;gap:7px;min-width:0;flex:1 1 auto;overflow:hidden;">
-      <div class="tv-zoom-group" title="Zoom pantalla — ajusta los bordes a tu TV">
-        <button class="tv-zoom-btn" onclick="changeZoom(-1)" title="Reducir">−</button>
-        <span class="tv-zoom-lbl" id="zoomLabel">100%</span>
-        <button class="tv-zoom-btn" onclick="changeZoom(1)" title="Ampliar">+</button>
+      <div class="tv-margin-group" title="Margen TV — empuja el contenido hacia adentro">
+        <button class="tv-margin-btn" onclick="changeTvMargin(-1)" title="Menos margen">−</button>
+        <span class="tv-margin-lbl" id="tvMarginLabel">0px</span>
+        <button class="tv-margin-btn" onclick="changeTvMargin(1)" title="Más margen">+</button>
       </div>
-      <button class="tv-zoom-rst" onclick="resetZoom()">Zoom 100</button>
+      <button class="tv-margin-rst" onclick="resetTvMargin()">Reset</button>
       <span style="color:var(--muted);font-size:9px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Fuente: Railway/AENA · <b style="color:var(--gold2)">Auto 5 min</b></span>
     </div>
     <div class="footer-actions" aria-label="Controles de pantalla">
@@ -1428,31 +1435,27 @@ function changeDataScale(dir){
   applyDataScale(TOP_DATA_STEPS[topDataStepIndex]);
 })();
 
-/* === ZOOM TV: encoge/expande TODO — bordes, esquinas, layout completo === */
-const ZOOM_KEY='south_tv_page_zoom_v1';
-const ZOOM_STEPS=(()=>{const a=[];for(let z=60;z<=110;z+=2)a.push(+(z/100).toFixed(2));return a;})();
-let zoomIdx=ZOOM_STEPS.indexOf(1.00);
-function applyZoom(scale){
-  // zoom sobre <html>: el navegador renderiza todo a ese factor,
-  // los bordes y esquinas se meten hacia dentro o se expanden según necesites
-  document.documentElement.style.zoom=String(scale);
-  const lab=document.getElementById('zoomLabel');
-  if(lab)lab.textContent=Math.round(scale*100)+'%';
-  try{localStorage.setItem(ZOOM_KEY,String(scale));}catch(e){}
+/* === MÁRGENES TV: ajusta cuánto se mete el contenido desde los bordes === */
+const TV_MARGIN_KEY='south_tv_safe_margin_v1';
+let tvMarginPx=0; // valor actual en px, se suma al padding base del #app
+function applyTvMargin(px){
+  tvMarginPx=px;
+  document.documentElement.style.setProperty('--tv-safe', px+'px');
+  const lab=document.getElementById('tvMarginLabel');
+  if(lab) lab.textContent=px+'px';
+  try{localStorage.setItem(TV_MARGIN_KEY,String(px));}catch(e){}
 }
-function changeZoom(dir){
-  zoomIdx=Math.max(0,Math.min(ZOOM_STEPS.length-1,zoomIdx+dir));
-  applyZoom(ZOOM_STEPS[zoomIdx]);
+function changeTvMargin(dir){
+  // pasos de 4px, rango 0–120px
+  applyTvMargin(Math.max(0, Math.min(120, tvMarginPx + dir*4)));
 }
-function resetZoom(){
-  zoomIdx=ZOOM_STEPS.indexOf(1.00);
-  applyZoom(1.00);
+function resetTvMargin(){
+  applyTvMargin(0);
 }
-(function initZoom(){
-  let saved=1.00;
-  try{saved=parseFloat(localStorage.getItem(ZOOM_KEY)||'1');}catch(e){}
-  zoomIdx=ZOOM_STEPS.reduce((b,v,i)=>Math.abs(v-saved)<Math.abs(ZOOM_STEPS[b]-saved)?i:b,ZOOM_STEPS.indexOf(1.00));
-  applyZoom(ZOOM_STEPS[zoomIdx]);
+(function initTvMargin(){
+  let saved=0;
+  try{saved=parseInt(localStorage.getItem(TV_MARGIN_KEY)||'0',10);}catch(e){}
+  applyTvMargin(isNaN(saved)?0:saved);
 })();
 
 </script>

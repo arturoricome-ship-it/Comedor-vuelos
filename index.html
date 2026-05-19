@@ -798,6 +798,79 @@ body::before{
   .font-indicator,.rp-indicator{min-width:25px!important;font-size:7.5px!important}
 }
 
+
+
+/* === AJUSTE SOLICITADO: datos superiores regulables + totales centrados === */
+:root{--top-data-scale:1;}
+.header{
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:auto minmax(190px,1fr) minmax(420px,auto)!important;
+  grid-template-areas:"logo title status"!important;
+  align-items:center!important;
+  column-gap:14px!important;
+  overflow:visible!important;
+}
+.logo{grid-area:logo!important;}
+.title{grid-area:title!important;}
+.header-center{
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  transform:translate(-50%,-50%)!important;
+  z-index:3!important;
+  display:flex!important;
+  justify-content:center!important;
+  align-items:center!important;
+  gap:10px!important;
+  min-width:max-content!important;
+}
+.status-top{
+  grid-area:status!important;
+  justify-content:flex-end!important;
+  align-items:center!important;
+  gap:6px!important;
+  min-width:0!important;
+  z-index:4!important;
+}
+.pill .label{font-size:calc(6.5px * var(--top-data-scale))!important;}
+.pill .value{font-size:calc(13px * var(--top-data-scale))!important;}
+.pill{
+  min-width:calc(70px * var(--top-data-scale))!important;
+  padding:calc(4px * var(--top-data-scale)) calc(6px * var(--top-data-scale))!important;
+}
+.pill-total,.pill-tomorrow{
+  min-width:calc(80px * var(--top-data-scale))!important;
+}
+.data-size-controls{
+  display:flex!important;
+  align-items:center!important;
+  gap:4px!important;
+  margin-left:2px!important;
+  flex:0 0 auto!important;
+}
+.data-btn{
+  width:28px!important;
+  height:28px!important;
+  border-radius:10px!important;
+  border:1px solid rgba(200,168,75,.45)!important;
+  background:rgba(200,168,75,.10)!important;
+  color:var(--gold2)!important;
+  font:900 18px/1 "Outfit",sans-serif!important;
+  cursor:pointer!important;
+}
+.data-btn:active{transform:translateY(1px)!important;}
+@media(max-width:1200px){
+  .header{grid-template-columns:auto minmax(150px,1fr) minmax(360px,auto)!important;column-gap:10px!important;}
+  .header-center{gap:6px!important;}
+  .status-top{gap:4px!important;}
+  .data-btn{width:24px!important;height:24px!important;font-size:16px!important;border-radius:8px!important;}
+}
+@media(max-width:850px){
+  .header{grid-template-columns:auto minmax(120px,1fr) minmax(300px,auto)!important;}
+  .header-center{left:50%!important;}
+}
+
 </style>
 </head>
 <body>
@@ -816,7 +889,11 @@ body::before{
       <div class="pill live"><div class="label"><span class="live-dot"></span>Estado</div><div class="value" id="statusLive">Live</div></div>
       <div class="pill"><div class="label">Hora</div><div class="value" id="clock">--:--</div></div>
       <div class="pill"><div class="label">Actualizado</div><div class="value" id="updated">--:--</div></div>
-      <div class="pill"><div class="label">Recarga de estados</div><div class="value" id="nextRefresh">5:00</div></div>
+      <div class="pill pill-refresh"><div class="label">Recarga de estados</div><div class="value" id="nextRefresh">5:00</div></div>
+      <div class="data-size-controls" title="Tamaño de datos superiores">
+        <button class="data-btn" onclick="changeDataScale(-1)">−</button>
+        <button class="data-btn" onclick="changeDataScale(1)">+</button>
+      </div>
     </div>
   </header>
 
@@ -1292,6 +1369,30 @@ function fitFlightTextSafe(){
   applyFontScale(SCALE_STEPS[fontStepIndex]);
   applyRpScale(SCALE_STEPS[rpStepIndex]);
   window.addEventListener('resize',()=>requestAnimationFrame(fitFlightTextSafe));
+})();
+
+
+
+/* === Control +/- de los datos superiores === */
+const TOP_DATA_SCALE_KEY="south_tv_top_data_scale_v1";
+const TOP_DATA_STEPS=[0.75,0.85,0.95,1.00,1.10,1.22,1.36,1.52,1.70,1.90,2.10];
+let topDataStepIndex=3;
+function nearestTopDataScaleIndex(value){
+  return TOP_DATA_STEPS.reduce((best,v,i)=>Math.abs(v-value)<Math.abs(TOP_DATA_STEPS[best]-value)?i:best,3);
+}
+function applyDataScale(scale){
+  document.documentElement.style.setProperty('--top-data-scale',String(scale));
+  try{localStorage.setItem(TOP_DATA_SCALE_KEY,String(scale));}catch(e){}
+}
+function changeDataScale(dir){
+  topDataStepIndex=Math.max(0,Math.min(TOP_DATA_STEPS.length-1,topDataStepIndex+dir));
+  applyDataScale(TOP_DATA_STEPS[topDataStepIndex]);
+}
+(function initTopDataScale(){
+  let saved=1;
+  try{saved=parseFloat(localStorage.getItem(TOP_DATA_SCALE_KEY)||'1');}catch(e){}
+  topDataStepIndex=nearestTopDataScaleIndex(saved);
+  applyDataScale(TOP_DATA_STEPS[topDataStepIndex]);
 })();
 
 </script>

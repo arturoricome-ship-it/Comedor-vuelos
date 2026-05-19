@@ -871,61 +871,31 @@ body::before{
   .header-center{left:50%!important;}
 }
 
-/* === ZOOM DE PANTALLA: ajuste de bordes para TV === */
-#app{
-  transform-origin:top left;
+/* === ZOOM TV: encoge/expande toda la página para ajustar bordes === */
+.tv-zoom-group{
+  display:flex;align-items:center;gap:3px;
+  border:1px solid rgba(96,165,250,.4);
+  background:rgba(96,165,250,.08);
+  border-radius:10px;padding:2px 3px;
 }
-.zoom-controls{
-  display:flex!important;
-  align-items:center!important;
-  gap:4px!important;
-  flex:0 0 auto!important;
+.tv-zoom-btn{
+  width:28px;height:26px;border-radius:7px;
+  border:1px solid rgba(96,165,250,.55);
+  background:rgba(96,165,250,.14);
+  color:#93c5fd;font:900 17px/1 "Outfit",sans-serif;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
 }
-.zoom-group{
-  display:flex!important;
-  align-items:center!important;
-  gap:3px!important;
-  border:1px solid rgba(96,165,250,.35)!important;
-  background:rgba(96,165,250,.07)!important;
-  border-radius:10px!important;
-  padding:2px!important;
+.tv-zoom-btn:active{opacity:.7;}
+.tv-zoom-lbl{
+  min-width:34px;text-align:center;
+  color:#93c5fd;font-size:9px;font-weight:900;letter-spacing:.2px;
 }
-.zoom-btn{
-  flex:0 0 auto!important;
-  width:30px!important;
-  height:26px!important;
-  border-radius:7px!important;
-  border:1px solid rgba(96,165,250,.5)!important;
-  background:rgba(96,165,250,.13)!important;
-  color:#93c5fd!important;
-  font:900 16px/1 "Outfit",sans-serif!important;
-  cursor:pointer!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
+.tv-zoom-rst{
+  border:1px solid rgba(96,165,250,.4);background:rgba(96,165,250,.10);
+  color:#93c5fd;border-radius:7px;padding:4px 6px;
+  font:900 8.5px "Outfit",sans-serif;cursor:pointer;white-space:nowrap;
 }
-.zoom-btn:active{transform:translateY(1px)!important;}
-.zoom-label{
-  min-width:36px!important;
-  text-align:center!important;
-  color:#93c5fd!important;
-  font-size:9px!important;
-  font-weight:900!important;
-  letter-spacing:.3px!important;
-}
-.zoom-reset{
-  flex:0 0 auto!important;
-  border:1px solid rgba(96,165,250,.4)!important;
-  background:rgba(96,165,250,.10)!important;
-  color:#93c5fd!important;
-  border-radius:7px!important;
-  padding:4px 6px!important;
-  font:900 8.5px "Outfit",sans-serif!important;
-  cursor:pointer!important;
-  white-space:nowrap!important;
-}
-.zoom-reset:active{transform:translateY(1px)!important;}
-
+.tv-zoom-rst:active{opacity:.7;}
 </style>
 </head>
 <body>
@@ -970,16 +940,14 @@ body::before{
   </main>
 
   <footer class="footer">
-    <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1;">
-      <div class="zoom-controls">
-        <div class="zoom-group" title="Zoom pantalla completa · ajusta bordes TV">
-          <button class="zoom-btn" onclick="changeZoom(-1)">−</button>
-          <span class="zoom-label" id="zoomLabel">100%</span>
-          <button class="zoom-btn" onclick="changeZoom(1)">+</button>
-        </div>
-        <button class="zoom-reset" onclick="resetZoom()">Zoom 100</button>
+    <div style="display:flex;align-items:center;gap:7px;min-width:0;flex:1 1 auto;overflow:hidden;">
+      <div class="tv-zoom-group" title="Zoom pantalla — ajusta los bordes a tu TV">
+        <button class="tv-zoom-btn" onclick="changeZoom(-1)" title="Reducir">−</button>
+        <span class="tv-zoom-lbl" id="zoomLabel">100%</span>
+        <button class="tv-zoom-btn" onclick="changeZoom(1)" title="Ampliar">+</button>
       </div>
-      <span style="color:var(--muted);font-size:9px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;">Fuente: Railway/AENA · <b style="color:var(--gold2)">Auto 5 min</b></span>
+      <button class="tv-zoom-rst" onclick="resetZoom()">Zoom 100</button>
+      <span style="color:var(--muted);font-size:9px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Fuente: Railway/AENA · <b style="color:var(--gold2)">Auto 5 min</b></span>
     </div>
     <div class="footer-actions" aria-label="Controles de pantalla">
       <div class="control-group" title="Tamaño general">
@@ -1460,40 +1428,31 @@ function changeDataScale(dir){
   applyDataScale(TOP_DATA_STEPS[topDataStepIndex]);
 })();
 
-/* === ZOOM DE PANTALLA: ajuste de bordes para TV === */
+/* === ZOOM TV: encoge/expande TODO — bordes, esquinas, layout completo === */
 const ZOOM_KEY='south_tv_page_zoom_v1';
-// Pasos de 2% desde 60% hasta 110%
-const ZOOM_STEPS=(()=>{const a=[];for(let z=60;z<=110;z+=2)a.push(z/100);return a;})();
-let zoomStepIndex=ZOOM_STEPS.indexOf(1.00); // arranca en 100%
+const ZOOM_STEPS=(()=>{const a=[];for(let z=60;z<=110;z+=2)a.push(+(z/100).toFixed(2));return a;})();
+let zoomIdx=ZOOM_STEPS.indexOf(1.00);
 function applyZoom(scale){
-  const app=document.getElementById('app');
-  if(!app)return;
-  // zoom CSS — reflow nativo, ideal para TV
-  app.style.zoom=String(scale);
-  // fallback para Firefox
-  if(typeof app.style.zoom==='undefined'||app.style.zoom===''){
-    app.style.transform='scale('+scale+')';
-    app.style.transformOrigin='top left';
-    app.style.width=(100/scale)+'%';
-  }
+  // zoom sobre <html>: el navegador renderiza todo a ese factor,
+  // los bordes y esquinas se meten hacia dentro o se expanden según necesites
+  document.documentElement.style.zoom=String(scale);
   const lab=document.getElementById('zoomLabel');
   if(lab)lab.textContent=Math.round(scale*100)+'%';
   try{localStorage.setItem(ZOOM_KEY,String(scale));}catch(e){}
 }
 function changeZoom(dir){
-  zoomStepIndex=Math.max(0,Math.min(ZOOM_STEPS.length-1,zoomStepIndex+dir));
-  applyZoom(ZOOM_STEPS[zoomStepIndex]);
+  zoomIdx=Math.max(0,Math.min(ZOOM_STEPS.length-1,zoomIdx+dir));
+  applyZoom(ZOOM_STEPS[zoomIdx]);
 }
 function resetZoom(){
-  zoomStepIndex=ZOOM_STEPS.indexOf(1.00);
+  zoomIdx=ZOOM_STEPS.indexOf(1.00);
   applyZoom(1.00);
 }
 (function initZoom(){
   let saved=1.00;
   try{saved=parseFloat(localStorage.getItem(ZOOM_KEY)||'1');}catch(e){}
-  // busca el índice más cercano
-  zoomStepIndex=ZOOM_STEPS.reduce((best,v,i)=>Math.abs(v-saved)<Math.abs(ZOOM_STEPS[best]-saved)?i:best,ZOOM_STEPS.indexOf(1.00));
-  applyZoom(ZOOM_STEPS[zoomStepIndex]);
+  zoomIdx=ZOOM_STEPS.reduce((b,v,i)=>Math.abs(v-saved)<Math.abs(ZOOM_STEPS[b]-saved)?i:b,ZOOM_STEPS.indexOf(1.00));
+  applyZoom(ZOOM_STEPS[zoomIdx]);
 })();
 
 </script>

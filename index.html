@@ -710,7 +710,7 @@ body::before{
 
 
 /* === Controles inferiores: fuente general y Remoto/Parking independientes === */
-:root{--tv-font-scale:1;--rp-font-scale:1;}
+:root{--tv-font-scale:1;--rp-font-scale:1;--pill-scale:1;}
 .footer{display:flex!important;align-items:flex-end!important;justify-content:space-between!important;gap:8px!important;flex-wrap:wrap!important;padding-bottom:8px!important;}
 .footer>div:first-child{min-width:240px!important;flex:1 1 240px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;}
 .footer-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:5px!important;flex-wrap:wrap!important;max-width:100%!important;overflow:visible!important;}
@@ -789,89 +789,25 @@ body::before{
 }
 .rp-indicator{color:#7dd3fc!important}
 .fs-btn{min-width:auto!important;}
-@media(max-width:850px){
-  .footer{padding:3px 6px 8px!important;gap:4px!important}
-  .footer>div:first-child{font-size:7.5px!important}
-  .footer-actions{gap:3px!important;justify-content:flex-end!important;flex-wrap:nowrap!important}
-  .control-group{gap:2px!important;padding:1px!important;border-radius:8px!important}
-  .font-btn,.rp-btn,.fs-btn{min-width:28px!important;padding:4px 5px!important;font-size:8px!important;border-radius:7px!important}
-  .font-indicator,.rp-indicator{min-width:25px!important;font-size:7.5px!important}
-}
-
-
-
-/* === AJUSTE SOLICITADO: datos superiores regulables + totales centrados === */
-:root{--top-data-scale:1;}
-.header{
-  position:relative!important;
-  display:grid!important;
-  grid-template-columns:auto minmax(190px,1fr) minmax(420px,auto)!important;
-  grid-template-areas:"logo title status"!important;
-  align-items:center!important;
-  column-gap:14px!important;
-  overflow:visible!important;
-}
-.logo{grid-area:logo!important;}
-.title{grid-area:title!important;}
+/* === Escala de pills del header (+ / − junto a Recarga de estados) === */
+.pill .label{font-size:calc(8px * var(--pill-scale))!important;letter-spacing:calc(.9px * var(--pill-scale))!important;}
+.pill .value{font-size:calc(18px * var(--pill-scale))!important;}
+.pill{min-width:calc(92px * var(--pill-scale))!important;padding:calc(6px * var(--pill-scale)) calc(9px * var(--pill-scale))!important;border-radius:calc(12px * var(--pill-scale))!important;}
+.live-dot{width:calc(7px * var(--pill-scale))!important;height:calc(7px * var(--pill-scale))!important;}
+.pill-scale-ctrl{display:flex;align-items:center;gap:3px;border:1px solid rgba(200,168,75,.25);background:rgba(200,168,75,.06);border-radius:10px;padding:2px 4px;align-self:center;}
+.pill-scale-btn{border:1px solid rgba(200,168,75,.4)!important;background:rgba(200,168,75,.10)!important;color:var(--gold2)!important;border-radius:7px!important;padding:4px 7px!important;font:900 11px "Outfit",sans-serif!important;line-height:1!important;cursor:pointer!important;}
+.pill-scale-btn:active{transform:translateY(1px)!important;}
+/* === Total Hoy / Mañana: centrados absolutamente entre las dos columnas === */
+.header{position:relative!important;}
 .header-center{
   position:absolute!important;
   left:50%!important;
   top:50%!important;
-  transform:translate(-50%,-50%)!important;
-  z-index:3!important;
-  display:flex!important;
-  justify-content:center!important;
-  align-items:center!important;
-  gap:10px!important;
-  min-width:max-content!important;
-}
-.status-top{
-  grid-area:status!important;
-  justify-content:flex-end!important;
-  align-items:center!important;
-  gap:6px!important;
-  min-width:0!important;
-  z-index:4!important;
-}
-.pill .label{font-size:calc(6.5px * var(--top-data-scale))!important;}
-.pill .value{font-size:calc(13px * var(--top-data-scale))!important;}
-.pill{
-  min-width:calc(70px * var(--top-data-scale))!important;
-  padding:calc(4px * var(--top-data-scale)) calc(6px * var(--top-data-scale))!important;
-}
-.pill-total,.pill-tomorrow{
-  min-width:calc(80px * var(--top-data-scale))!important;
-}
-.data-size-controls{
-  display:flex!important;
-  align-items:center!important;
-  gap:4px!important;
-  margin-left:2px!important;
-  flex:0 0 auto!important;
-}
-.data-btn{
-  width:28px!important;
-  height:28px!important;
-  border-radius:10px!important;
-  border:1px solid rgba(200,168,75,.45)!important;
-  background:rgba(200,168,75,.10)!important;
-  color:var(--gold2)!important;
-  font:900 18px/1 "Outfit",sans-serif!important;
-  cursor:pointer!important;
-}
-.data-btn:active{transform:translateY(1px)!important;}
-@media(max-width:1200px){
-  .header{grid-template-columns:auto minmax(150px,1fr) minmax(360px,auto)!important;column-gap:10px!important;}
-  .header-center{gap:6px!important;}
-  .status-top{gap:4px!important;}
-  .data-btn{width:24px!important;height:24px!important;font-size:16px!important;border-radius:8px!important;}
-}
-@media(max-width:850px){
-  .header{grid-template-columns:auto minmax(120px,1fr) minmax(300px,auto)!important;}
-  .header-center{left:50%!important;}
+  transform:translate(-50%,-58%)!important;
+  z-index:2!important;
+  gap:8px!important;
 }
 
-</style>
 </head>
 <body>
 <div id="app">
@@ -889,10 +825,10 @@ body::before{
       <div class="pill live"><div class="label"><span class="live-dot"></span>Estado</div><div class="value" id="statusLive">Live</div></div>
       <div class="pill"><div class="label">Hora</div><div class="value" id="clock">--:--</div></div>
       <div class="pill"><div class="label">Actualizado</div><div class="value" id="updated">--:--</div></div>
-      <div class="pill pill-refresh"><div class="label">Recarga de estados</div><div class="value" id="nextRefresh">5:00</div></div>
-      <div class="data-size-controls" title="Tamaño de datos superiores">
-        <button class="data-btn" onclick="changeDataScale(-1)">−</button>
-        <button class="data-btn" onclick="changeDataScale(1)">+</button>
+      <div class="pill"><div class="label">Recarga de estados</div><div class="value" id="nextRefresh">5:00</div></div>
+      <div class="pill-scale-ctrl" title="Tamaño pills cabecera">
+        <button class="pill-scale-btn" onclick="changePillScale(-1)">−</button>
+        <button class="pill-scale-btn" onclick="changePillScale(1)">+</button>
       </div>
     </div>
   </header>
@@ -1309,9 +1245,11 @@ loadLive();setInterval(tick,1000);setInterval(()=>{renderAll();},30000);
 /* === Escala de letras: general y Remoto/Parking === */
 const FONT_SCALE_KEY="south_tv_font_scale_v2";
 const RP_SCALE_KEY="south_tv_rp_scale_v1";
+const PILL_SCALE_KEY="south_tv_pill_scale_v1";
 const SCALE_STEPS=[0.82,0.90,1.00,1.10,1.22,1.36,1.52,1.70];
 let fontStepIndex=2;
 let rpStepIndex=2;
+let pillStepIndex=2;
 function nearestScaleIndex(value){
   return SCALE_STEPS.reduce((best,v,i)=>Math.abs(v-value)<Math.abs(SCALE_STEPS[best]-value)?i:best,2);
 }
@@ -1339,6 +1277,16 @@ function changeRpScale(dir){
   applyRpScale(SCALE_STEPS[rpStepIndex]);
 }
 function resetRpScale(){rpStepIndex=2;applyRpScale(SCALE_STEPS[rpStepIndex]);}
+function applyPillScale(scale){
+  document.documentElement.style.setProperty('--pill-scale',String(scale));
+  localStorage.setItem(PILL_SCALE_KEY,String(scale));
+  requestAnimationFrame(fitFlightTextSafe);
+}
+function changePillScale(dir){
+  pillStepIndex=Math.max(0,Math.min(SCALE_STEPS.length-1,pillStepIndex+dir));
+  applyPillScale(SCALE_STEPS[pillStepIndex]);
+}
+function resetPillScale(){pillStepIndex=2;applyPillScale(SCALE_STEPS[pillStepIndex]);}
 function fitOneLineSafe(el,minPx){
   if(!el)return;
   el.style.removeProperty('font-size');
@@ -1366,33 +1314,11 @@ function fitFlightTextSafe(){
 (function initScales(){
   fontStepIndex=nearestScaleIndex(parseFloat(localStorage.getItem(FONT_SCALE_KEY)||'1'));
   rpStepIndex=nearestScaleIndex(parseFloat(localStorage.getItem(RP_SCALE_KEY)||'1'));
+  pillStepIndex=nearestScaleIndex(parseFloat(localStorage.getItem(PILL_SCALE_KEY)||'1'));
   applyFontScale(SCALE_STEPS[fontStepIndex]);
   applyRpScale(SCALE_STEPS[rpStepIndex]);
+  applyPillScale(SCALE_STEPS[pillStepIndex]);
   window.addEventListener('resize',()=>requestAnimationFrame(fitFlightTextSafe));
-})();
-
-
-
-/* === Control +/- de los datos superiores === */
-const TOP_DATA_SCALE_KEY="south_tv_top_data_scale_v1";
-const TOP_DATA_STEPS=[0.75,0.85,0.95,1.00,1.10,1.22,1.36,1.52,1.70,1.90,2.10];
-let topDataStepIndex=3;
-function nearestTopDataScaleIndex(value){
-  return TOP_DATA_STEPS.reduce((best,v,i)=>Math.abs(v-value)<Math.abs(TOP_DATA_STEPS[best]-value)?i:best,3);
-}
-function applyDataScale(scale){
-  document.documentElement.style.setProperty('--top-data-scale',String(scale));
-  try{localStorage.setItem(TOP_DATA_SCALE_KEY,String(scale));}catch(e){}
-}
-function changeDataScale(dir){
-  topDataStepIndex=Math.max(0,Math.min(TOP_DATA_STEPS.length-1,topDataStepIndex+dir));
-  applyDataScale(TOP_DATA_STEPS[topDataStepIndex]);
-}
-(function initTopDataScale(){
-  let saved=1;
-  try{saved=parseFloat(localStorage.getItem(TOP_DATA_SCALE_KEY)||'1');}catch(e){}
-  topDataStepIndex=nearestTopDataScaleIndex(saved);
-  applyDataScale(TOP_DATA_STEPS[topDataStepIndex]);
 })();
 
 </script>

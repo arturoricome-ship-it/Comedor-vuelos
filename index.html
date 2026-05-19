@@ -970,6 +970,252 @@ html,body{
   }
 }
 
+
+/* === MODO TV LEJOS: menos vuelos, mucho más legibles ===
+   Pensado para ver 3-4 movimientos principales desde distancia. */
+html,body{
+  height:100%!important;
+  overflow:auto!important;
+}
+
+#app{
+  padding:18px 42px 16px!important;
+  gap:14px!important;
+}
+
+/* Mantener cabecera, pero sin robar demasiada altura */
+.header{
+  min-height:72px!important;
+  padding-bottom:12px!important;
+  gap:22px!important;
+  column-gap:22px!important;
+}
+
+.logo.logo-real{
+  width:168px!important;
+  height:54px!important;
+  min-width:168px!important;
+  max-width:168px!important;
+  flex-basis:168px!important;
+}
+
+.title h1{
+  font-size:36px!important;
+  letter-spacing:1.9px!important;
+  line-height:.92!important;
+}
+
+.title .sub{
+  font-size:8.5px!important;
+  margin-top:5px!important;
+  letter-spacing:1.7px!important;
+}
+
+.status-top{
+  gap:10px!important;
+}
+
+.pill{
+  min-width:96px!important;
+  padding:8px 10px!important;
+  border-radius:14px!important;
+}
+
+.pill .label{
+  font-size:8px!important;
+  letter-spacing:1px!important;
+}
+
+.pill .value{
+  font-size:18px!important;
+}
+
+/* Paneles */
+.columns{
+  gap:18px!important;
+}
+
+.panel{
+  border-radius:24px!important;
+}
+
+.panel-head{
+  padding:16px 18px!important;
+}
+
+.panel-title{
+  font-size:42px!important;
+  gap:13px!important;
+  letter-spacing:1.8px!important;
+}
+
+.panel-title .ico{
+  font-size:34px!important;
+}
+
+.panel-count{
+  font-size:18px!important;
+  padding:8px 14px!important;
+}
+
+/* Tarjetas de vuelo mucho más grandes */
+.list{
+  padding:12px!important;
+  gap:12px!important;
+}
+
+.flight{
+  grid-template-columns:124px minmax(0,1fr) 116px 158px!important;
+  min-height:92px!important;
+  padding:14px 16px!important;
+  gap:16px!important;
+  border-radius:20px!important;
+}
+
+.flight::before{
+  width:6px!important;
+}
+
+.num{
+  font-size:44px!important;
+  letter-spacing:1.8px!important;
+}
+
+.subnum{
+  font-size:14px!important;
+  margin-top:6px!important;
+}
+
+.city{
+  font-size:32px!important;
+  line-height:1.04!important;
+}
+
+.time{
+  font-size:18px!important;
+  margin-top:6px!important;
+}
+
+.oldtime{
+  margin-right:8px!important;
+}
+
+.gate-note{
+  font-size:11px!important;
+  padding:5px 10px!important;
+  letter-spacing:.35px!important;
+}
+
+.state{
+  font-size:14px!important;
+  padding:7px 11px!important;
+}
+
+.countdown{
+  font-size:21px!important;
+}
+
+.sep{
+  font-size:22px!important;
+  margin:12px 10px!important;
+}
+
+.footer{
+  display:none!important;
+}
+
+/* En TV/navegadores con menos ancho mantenemos legibilidad */
+@media(max-width:1200px){
+  #app{
+    padding:14px 34px 14px!important;
+    gap:12px!important;
+  }
+
+  .header{
+    min-height:64px!important;
+    padding-bottom:10px!important;
+    gap:18px!important;
+    column-gap:18px!important;
+  }
+
+  .logo.logo-real{
+    width:150px!important;
+    height:48px!important;
+    min-width:150px!important;
+    max-width:150px!important;
+    flex-basis:150px!important;
+  }
+
+  .title h1{
+    font-size:31px!important;
+  }
+
+  .title .sub{
+    font-size:7.5px!important;
+  }
+
+  .pill{
+    min-width:82px!important;
+    padding:7px 8px!important;
+  }
+
+  .pill .label{
+    font-size:7px!important;
+  }
+
+  .pill .value{
+    font-size:16px!important;
+  }
+
+  .panel-head{
+    padding:13px 15px!important;
+  }
+
+  .panel-title{
+    font-size:36px!important;
+  }
+
+  .panel-count{
+    font-size:16px!important;
+  }
+
+  .list{
+    padding:10px!important;
+    gap:10px!important;
+  }
+
+  .flight{
+    grid-template-columns:106px minmax(0,1fr) 96px 136px!important;
+    min-height:80px!important;
+    padding:12px 14px!important;
+    gap:13px!important;
+  }
+
+  .num{
+    font-size:38px!important;
+  }
+
+  .subnum{
+    font-size:12px!important;
+  }
+
+  .city{
+    font-size:27px!important;
+  }
+
+  .time{
+    font-size:16px!important;
+  }
+
+  .state{
+    font-size:12px!important;
+  }
+
+  .countdown{
+    font-size:18px!important;
+  }
+}
+
 </style>
 </head>
 <body>

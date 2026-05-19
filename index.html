@@ -911,6 +911,193 @@ body{
   }
 }
 
+
+
+/* ==========================================================
+   TV GRANDE / 5 VUELOS VISIBLES
+   Aplicado sobre la versión TV Safe: agranda la zona marcada
+   y deja scroll dentro de cada lista.
+   ========================================================== */
+html,body{
+  width:100%!important;
+  height:100%!important;
+  overflow:hidden!important;
+}
+#app{
+  height:100vh!important;
+  min-height:100vh!important;
+  overflow:hidden!important;
+  padding:18px 28px 18px!important;
+  gap:14px!important;
+}
+.header{
+  min-height:76px!important;
+  padding-bottom:10px!important;
+}
+.logo{
+  width:142px!important;
+  height:42px!important;
+  min-width:142px!important;
+  max-width:142px!important;
+  flex-basis:142px!important;
+}
+.title h1{
+  font-size:34px!important;
+  letter-spacing:1.6px!important;
+}
+.title .sub{
+  font-size:10px!important;
+  letter-spacing:1.7px!important;
+}
+.pill{
+  min-width:108px!important;
+  padding:8px 11px!important;
+  border-radius:16px!important;
+}
+.pill .label{
+  font-size:9px!important;
+}
+.pill .value{
+  font-size:24px!important;
+}
+.insights{
+  gap:10px!important;
+}
+.insight{
+  padding:10px 14px!important;
+  border-radius:16px!important;
+}
+.insight .k{
+  font-size:11px!important;
+}
+.insight .v{
+  font-size:24px!important;
+}
+.columns{
+  flex:1!important;
+  min-height:0!important;
+  overflow:hidden!important;
+  gap:16px!important;
+}
+.panel{
+  min-height:0!important;
+  height:100%!important;
+  overflow:hidden!important;
+  border-radius:26px!important;
+}
+.panel-head{
+  flex:0 0 auto!important;
+  padding:18px 22px!important;
+}
+.panel-title{
+  font-size:48px!important;
+  letter-spacing:2.1px!important;
+}
+.panel-title .ico{
+  font-size:39px!important;
+}
+.panel-count{
+  font-size:22px!important;
+  padding:9px 17px!important;
+}
+.list{
+  flex:1!important;
+  min-height:0!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  padding:14px!important;
+  gap:12px!important;
+  scroll-behavior:smooth;
+}
+.flight{
+  grid-template-columns:132px minmax(0,1fr) 180px 155px!important;
+  gap:20px!important;
+  min-height:112px!important;
+  padding:16px 18px!important;
+  border-radius:22px!important;
+}
+.flight::before{
+  width:8px!important;
+}
+.num{
+  font-size:48px!important;
+  letter-spacing:1.6px!important;
+}
+.subnum{
+  font-size:18px!important;
+  margin-top:8px!important;
+}
+.city{
+  font-size:43px!important;
+  line-height:1.02!important;
+}
+.time{
+  font-size:27px!important;
+  margin-top:8px!important;
+}
+.oldtime{
+  margin-right:18px!important;
+}
+.gate-note{
+  font-size:17px!important;
+  padding:10px 18px!important;
+  border-radius:18px!important;
+  letter-spacing:.7px!important;
+}
+.state{
+  font-size:18px!important;
+  padding:9px 15px!important;
+}
+.countdown{
+  font-size:32px!important;
+  line-height:1.05!important;
+}
+.right{
+  gap:10px!important;
+}
+.footer{
+  flex:0 0 auto!important;
+  font-size:15px!important;
+  padding-top:2px!important;
+}
+.fs-btn{
+  font-size:14px!important;
+  padding:9px 13px!important;
+}
+
+@media(max-width:1200px){
+  #app{padding:16px 24px 16px!important;gap:12px!important}
+  .header{min-height:68px!important;padding-bottom:8px!important}
+  .logo{width:122px!important;height:36px!important;min-width:122px!important;max-width:122px!important;flex-basis:122px!important}
+  .title h1{font-size:30px!important}
+  .title .sub{font-size:8.5px!important}
+  .pill{min-width:96px!important;padding:7px 9px!important}
+  .pill .label{font-size:8px!important}
+  .pill .value{font-size:21px!important}
+  .insight{padding:8px 11px!important}
+  .insight .k{font-size:9px!important}
+  .insight .v{font-size:20px!important}
+  .panel-head{padding:15px 18px!important}
+  .panel-title{font-size:42px!important}
+  .panel-title .ico{font-size:34px!important}
+  .panel-count{font-size:19px!important;padding:8px 14px!important}
+  .list{padding:12px!important;gap:10px!important}
+  .flight{grid-template-columns:116px minmax(0,1fr) 150px 132px!important;gap:16px!important;min-height:98px!important;padding:14px 16px!important;border-radius:20px!important}
+  .num{font-size:42px!important}
+  .subnum{font-size:16px!important;margin-top:7px!important}
+  .city{font-size:36px!important}
+  .time{font-size:24px!important;margin-top:6px!important}
+  .gate-note{font-size:15px!important;padding:9px 15px!important}
+  .state{font-size:16px!important;padding:8px 13px!important}
+  .countdown{font-size:29px!important}
+  .footer{font-size:13px!important}
+}
+
+@media(max-width:900px){
+  .columns{grid-template-columns:1fr!important}
+  .flight{grid-template-columns:110px minmax(0,1fr) 135px 124px!important;min-height:94px!important}
+}
+
 </style>
 </head>
 <body>

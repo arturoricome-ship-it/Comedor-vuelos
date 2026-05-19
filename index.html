@@ -708,522 +708,69 @@ body::before{
 }
 
 
-
-/* =========================================================
-   TV SAFE MODE · versión para pantallas con overscan/recorte
-   Añadido por ChatGPT: no toca JS ni conexión Railway/AENA.
-   Objetivo: dar margen real a los lados y evitar que se coman
-   columnas en Chromecast/TVs del trabajo.
-   ========================================================= */
-html,body{
-  width:100%!important;
-  max-width:100%!important;
-  overflow-x:hidden!important;
-}
-body{
-  overscroll-behavior:none!important;
-}
-#app{
-  width:100%!important;
-  max-width:100%!important;
-  padding-left:38px!important;
-  padding-right:38px!important;
-  padding-top:12px!important;
-  padding-bottom:14px!important;
-}
-.header{
-  grid-template-columns:minmax(92px,118px) minmax(0,1fr) auto auto!important;
-  column-gap:12px!important;
-  max-width:100%!important;
-  overflow:hidden!important;
-}
-.logo{
-  width:108px!important;
-  min-width:108px!important;
-  max-width:108px!important;
-  flex-basis:108px!important;
-}
-.title{
-  min-width:0!important;
-  padding-left:10px!important;
-}
-.title h1,
-.title .sub{
-  white-space:nowrap!important;
-  overflow:hidden!important;
-  text-overflow:ellipsis!important;
-}
-.status-top{
-  min-width:0!important;
-  gap:4px!important;
-}
-.pill{
-  min-width:62px!important;
-  max-width:86px!important;
-  padding-left:5px!important;
-  padding-right:5px!important;
-}
-.pill .value{
-  font-size:12px!important;
-}
-.pill .label{
-  font-size:6px!important;
-}
-.header-center{
-  min-width:80px!important;
-  gap:4px!important;
-}
-.pill-total,.pill-tomorrow{
-  min-width:62px!important;
-}
-.insights{
-  max-width:100%!important;
-  grid-template-columns:repeat(3,minmax(0,1fr))!important;
-}
-.columns{
-  width:100%!important;
-  max-width:100%!important;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
-  gap:12px!important;
-  overflow:hidden!important;
-}
-.panel{
-  min-width:0!important;
-  max-width:100%!important;
-}
-.panel-head{
-  padding-left:9px!important;
-  padding-right:9px!important;
-  gap:8px!important;
-}
-.panel-title{
-  min-width:0!important;
-  font-size:23px!important;
-  white-space:nowrap!important;
-  overflow:hidden!important;
-  text-overflow:ellipsis!important;
-}
-.panel-count{
-  flex:0 0 auto!important;
-  font-size:10px!important;
-  padding:4px 7px!important;
-}
-.list{
-  max-width:100%!important;
-  overflow:hidden!important;
-}
-.flight{
-  width:100%!important;
-  max-width:100%!important;
-  min-width:0!important;
-  grid-template-columns:58px minmax(0,1fr) 58px 86px!important;
-  gap:5px!important;
-  padding-left:7px!important;
-  padding-right:6px!important;
-  overflow:hidden!important;
-}
-.num{
-  font-size:19px!important;
-}
-.subnum{
-  font-size:7px!important;
-}
-.city{
-  font-size:14px!important;
-  min-width:0!important;
-  max-width:100%!important;
-}
-.time{
-  font-size:9px!important;
-}
-.gate-note{
-  font-size:6px!important;
-  padding:2px 4px!important;
-  max-width:100%!important;
-  overflow:hidden!important;
-  text-overflow:ellipsis!important;
-}
-.right{
-  min-width:0!important;
-  max-width:86px!important;
-  overflow:hidden!important;
-}
-.state{
-  font-size:7px!important;
-  padding:3px 4px!important;
-  max-width:100%!important;
-}
-.countdown{
-  font-size:10px!important;
-  max-width:100%!important;
-  overflow:hidden!important;
-  text-overflow:ellipsis!important;
-}
-.footer{
-  padding-left:4px!important;
-  padding-right:4px!important;
-  max-width:100%!important;
-  overflow:hidden!important;
-}
-.footer div{
-  min-width:0!important;
-  overflow:hidden!important;
-  text-overflow:ellipsis!important;
-  white-space:nowrap!important;
-}
-@media(max-width:1200px){
-  #app{
-    padding-left:34px!important;
-    padding-right:34px!important;
-  }
-  .header{
-    grid-template-columns:minmax(82px,102px) minmax(0,1fr) auto auto!important;
-  }
-  .logo{
-    width:96px!important;
-    min-width:96px!important;
-    max-width:96px!important;
-    flex-basis:96px!important;
-  }
-  .title h1{font-size:21px!important;}
-  .title .sub{font-size:5.8px!important;}
-  .flight{
-    grid-template-columns:54px minmax(0,1fr) 52px 78px!important;
-  }
-  .city{font-size:13px!important;}
-  .num{font-size:18px!important;}
-  .right{max-width:78px!important;}
-}
-@media(max-width:850px){
-  #app{
-    padding-left:26px!important;
-    padding-right:26px!important;
-  }
-  .columns{
-    grid-template-columns:1fr!important;
-  }
-  .header{
-    grid-template-columns:90px minmax(0,1fr)!important;
-  }
-  .header-center,.status-top{
-    grid-column:1/-1!important;
-    justify-content:flex-start!important;
-  }
-}
-
-
-
-/* ==========================================================
-   TV GRANDE / 5 VUELOS VISIBLES
-   Aplicado sobre la versión TV Safe: agranda la zona marcada
-   y deja scroll dentro de cada lista.
-   ========================================================== */
-html,body{
-  width:100%!important;
-  height:100%!important;
-  overflow:hidden!important;
-}
-#app{
-  height:100vh!important;
-  min-height:100vh!important;
-  overflow:hidden!important;
-  padding:18px 28px 18px!important;
-  gap:14px!important;
-}
-.header{
-  min-height:76px!important;
-  padding-bottom:10px!important;
-}
-.logo{
-  width:142px!important;
-  height:42px!important;
-  min-width:142px!important;
-  max-width:142px!important;
-  flex-basis:142px!important;
-}
-.title h1{
-  font-size:34px!important;
-  letter-spacing:1.6px!important;
-}
-.title .sub{
-  font-size:10px!important;
-  letter-spacing:1.7px!important;
-}
-.pill{
-  min-width:108px!important;
-  padding:8px 11px!important;
-  border-radius:16px!important;
-}
-.pill .label{
-  font-size:9px!important;
-}
-.pill .value{
-  font-size:24px!important;
-}
-.insights{
-  gap:10px!important;
-}
-.insight{
-  padding:10px 14px!important;
-  border-radius:16px!important;
-}
-.insight .k{
-  font-size:11px!important;
-}
-.insight .v{
-  font-size:24px!important;
-}
-.columns{
-  flex:1!important;
-  min-height:0!important;
-  overflow:hidden!important;
-  gap:16px!important;
-}
-.panel{
-  min-height:0!important;
-  height:100%!important;
-  overflow:hidden!important;
-  border-radius:26px!important;
-}
-.panel-head{
-  flex:0 0 auto!important;
-  padding:18px 22px!important;
-}
-.panel-title{
-  font-size:48px!important;
-  letter-spacing:2.1px!important;
-}
-.panel-title .ico{
-  font-size:39px!important;
-}
-.panel-count{
-  font-size:22px!important;
-  padding:9px 17px!important;
-}
-.list{
-  flex:1!important;
-  min-height:0!important;
-  overflow-y:auto!important;
-  overflow-x:hidden!important;
-  padding:14px!important;
-  gap:12px!important;
-  scroll-behavior:smooth;
-}
-.flight{
-  grid-template-columns:132px minmax(0,1fr) 180px 155px!important;
-  gap:20px!important;
-  min-height:112px!important;
-  padding:16px 18px!important;
-  border-radius:22px!important;
-}
-.flight::before{
-  width:8px!important;
-}
-.num{
-  font-size:48px!important;
-  letter-spacing:1.6px!important;
-}
-.subnum{
-  font-size:18px!important;
-  margin-top:8px!important;
-}
-.city{
-  font-size:43px!important;
-  line-height:1.02!important;
-}
-.time{
-  font-size:27px!important;
-  margin-top:8px!important;
-}
-.oldtime{
-  margin-right:18px!important;
-}
-.gate-note{
-  font-size:17px!important;
-  padding:10px 18px!important;
-  border-radius:18px!important;
-  letter-spacing:.7px!important;
-}
-.state{
-  font-size:18px!important;
-  padding:9px 15px!important;
-}
-.countdown{
-  font-size:32px!important;
-  line-height:1.05!important;
-}
-.right{
-  gap:10px!important;
-}
-.footer{
-  flex:0 0 auto!important;
-  font-size:15px!important;
-  padding-top:2px!important;
-}
-.fs-btn{
-  font-size:14px!important;
-  padding:9px 13px!important;
-}
-
-@media(max-width:1200px){
-  #app{padding:16px 24px 16px!important;gap:12px!important}
-  .header{min-height:68px!important;padding-bottom:8px!important}
-  .logo{width:122px!important;height:36px!important;min-width:122px!important;max-width:122px!important;flex-basis:122px!important}
-  .title h1{font-size:30px!important}
-  .title .sub{font-size:8.5px!important}
-  .pill{min-width:96px!important;padding:7px 9px!important}
-  .pill .label{font-size:8px!important}
-  .pill .value{font-size:21px!important}
-  .insight{padding:8px 11px!important}
-  .insight .k{font-size:9px!important}
-  .insight .v{font-size:20px!important}
-  .panel-head{padding:15px 18px!important}
-  .panel-title{font-size:42px!important}
-  .panel-title .ico{font-size:34px!important}
-  .panel-count{font-size:19px!important;padding:8px 14px!important}
-  .list{padding:12px!important;gap:10px!important}
-  .flight{grid-template-columns:116px minmax(0,1fr) 150px 132px!important;gap:16px!important;min-height:98px!important;padding:14px 16px!important;border-radius:20px!important}
-  .num{font-size:42px!important}
-  .subnum{font-size:16px!important;margin-top:7px!important}
-  .city{font-size:36px!important}
-  .time{font-size:24px!important;margin-top:6px!important}
-  .gate-note{font-size:15px!important;padding:9px 15px!important}
-  .state{font-size:16px!important;padding:8px 13px!important}
-  .countdown{font-size:29px!important}
-  .footer{font-size:13px!important}
-}
-
-@media(max-width:900px){
-  .columns{grid-template-columns:1fr!important}
-  .flight{grid-template-columns:110px minmax(0,1fr) 135px 124px!important;min-height:94px!important}
-}
-
-
-
-/* ==========================================================
-   AJUSTE FINO ZONA LLEGADAS/SALIDAS
-   Mantiene la parte superior como está y permite agrandar/reducir
-   solo las tarjetas de vuelos desde los botones inferiores.
-   ========================================================== */
+/* === AJUSTE MANUAL TV: bordes adaptados + fuente escalable segura === */
 :root{
-  --flightZoom:1;
+  --tv-font-scale:1;
 }
-.columns{
-  gap:14px!important;
-}
-.panel{
-  border-radius:22px!important;
-}
-.panel-head{
-  padding:12px 16px!important;
-}
-.panel-title{
-  font-size:calc(34px * var(--flightZoom))!important;
-  letter-spacing:1.7px!important;
-}
-.panel-title .ico{
-  font-size:calc(28px * var(--flightZoom))!important;
-}
-.panel-count{
-  font-size:calc(15px * var(--flightZoom))!important;
-  padding:7px 12px!important;
-}
-.list{
-  overflow-y:auto!important;
-  overflow-x:hidden!important;
-  padding:10px!important;
-  gap:8px!important;
-}
-.flight{
-  grid-template-columns:calc(86px * var(--flightZoom)) minmax(0,1fr) calc(92px * var(--flightZoom)) calc(106px * var(--flightZoom))!important;
-  gap:calc(10px * var(--flightZoom))!important;
-  min-height:calc(76px * var(--flightZoom))!important;
-  padding:calc(10px * var(--flightZoom)) calc(12px * var(--flightZoom))!important;
-  border-radius:18px!important;
-}
-.flight::before{
-  width:6px!important;
-}
-.num{
-  font-size:calc(31px * var(--flightZoom))!important;
-  letter-spacing:1.3px!important;
-}
-.subnum{
-  font-size:calc(12px * var(--flightZoom))!important;
-  margin-top:calc(4px * var(--flightZoom))!important;
-}
-.city{
-  font-size:calc(25px * var(--flightZoom))!important;
-  line-height:1.03!important;
-}
-.time{
-  font-size:calc(17px * var(--flightZoom))!important;
-  margin-top:calc(4px * var(--flightZoom))!important;
-}
-.oldtime{
-  margin-right:calc(10px * var(--flightZoom))!important;
-}
-.gate-note{
-  font-size:calc(10px * var(--flightZoom))!important;
-  padding:calc(6px * var(--flightZoom)) calc(9px * var(--flightZoom))!important;
-  border-radius:999px!important;
-  letter-spacing:.45px!important;
-}
-.state{
-  font-size:calc(11px * var(--flightZoom))!important;
-  padding:calc(6px * var(--flightZoom)) calc(8px * var(--flightZoom))!important;
-}
-.countdown{
-  font-size:calc(19px * var(--flightZoom))!important;
-  line-height:1.06!important;
-}
-.right{
-  gap:calc(5px * var(--flightZoom))!important;
-}
-.footer{
-  gap:10px!important;
-}
-.footer-controls{
+.footer-actions{
   display:flex;
   align-items:center;
+  justify-content:flex-end;
   gap:6px;
-  flex:0 0 auto;
+  flex-wrap:nowrap;
 }
-.zoom-btn{
+.font-btn{
+  min-width:30px;
+  height:28px;
   border:1px solid rgba(200,168,75,.35);
   background:rgba(200,168,75,.08);
   color:var(--gold2);
-  border-radius:10px;
-  padding:7px 10px;
+  border-radius:9px;
+  padding:4px 8px;
   font:900 13px "Outfit";
+  line-height:1;
   cursor:pointer;
-  min-width:34px;
 }
-.zoom-label{
+.font-btn:active,.fs-btn:active{transform:translateY(1px)}
+.font-indicator{
+  min-width:42px;
+  text-align:center;
   color:var(--muted);
-  font-size:11px;
+  font-size:10px;
   font-weight:900;
-  white-space:nowrap;
+  letter-spacing:.5px;
 }
+.flight{
+  width:100%!important;
+  max-width:100%!important;
+  grid-template-columns:clamp(62px,12%,82px) minmax(0,1fr) clamp(58px,12%,86px) clamp(92px,17%,120px)!important;
+  overflow:hidden!important;
+}
+.flight > div{min-width:0!important;max-width:100%!important;}
+.right{min-width:0!important;max-width:100%!important;overflow:hidden!important;}
+.num,.subnum,.city,.time,.state,.countdown,.gate-note{
+  max-width:100%!important;
+  min-width:0!important;
+}
+.num{font-size:calc(21px * var(--tv-font-scale))!important;}
+.subnum{font-size:calc(7.5px * var(--tv-font-scale))!important;}
+.city{font-size:calc(15.5px * var(--tv-font-scale))!important;}
+.time{font-size:calc(10px * var(--tv-font-scale))!important;}
+.state{font-size:calc(8px * var(--tv-font-scale))!important;}
+.countdown{font-size:calc(11px * var(--tv-font-scale))!important;}
+.gate-note{font-size:calc(6.8px * var(--tv-font-scale))!important;}
+.panel,.list{max-width:100%!important;}
+.columns{width:100%!important;min-width:0!important;}
+.footer{gap:10px!important;}
+.footer>div{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 @media(max-width:1200px){
-  .panel-head{padding:10px 13px!important}
-  .panel-title{font-size:calc(30px * var(--flightZoom))!important}
-  .panel-title .ico{font-size:calc(25px * var(--flightZoom))!important}
-  .panel-count{font-size:calc(13px * var(--flightZoom))!important;padding:6px 10px!important}
-  .list{padding:8px!important;gap:7px!important}
-  .flight{
-    grid-template-columns:calc(78px * var(--flightZoom)) minmax(0,1fr) calc(80px * var(--flightZoom)) calc(92px * var(--flightZoom))!important;
-    min-height:calc(68px * var(--flightZoom))!important;
-    padding:calc(8px * var(--flightZoom)) calc(10px * var(--flightZoom))!important;
-    gap:calc(8px * var(--flightZoom))!important;
-  }
-  .num{font-size:calc(28px * var(--flightZoom))!important}
-  .subnum{font-size:calc(10px * var(--flightZoom))!important}
-  .city{font-size:calc(22px * var(--flightZoom))!important}
-  .time{font-size:calc(15px * var(--flightZoom))!important}
-  .gate-note{font-size:calc(8.5px * var(--flightZoom))!important;padding:calc(5px * var(--flightZoom)) calc(7px * var(--flightZoom))!important}
-  .state{font-size:calc(9.5px * var(--flightZoom))!important;padding:calc(5px * var(--flightZoom)) calc(7px * var(--flightZoom))!important}
-  .countdown{font-size:calc(17px * var(--flightZoom))!important}
+  .flight{grid-template-columns:clamp(56px,12%,70px) minmax(0,1fr) clamp(48px,11%,72px) clamp(84px,17%,106px)!important;}
+  .font-btn{min-width:27px;height:25px;font-size:11px;padding:3px 7px;}
+  .font-indicator{font-size:8px;min-width:36px;}
+}
+@media(max-width:850px){
+  .footer{align-items:flex-start!important;}
+  .footer-actions{flex-wrap:wrap;}
 }
 
 </style>
@@ -1267,11 +814,11 @@ html,body{
 
   <footer class="footer">
     <div>Fuente: servidor Railway/AENA usado por la app South. <b>Actualización automática cada 5 min</b>.</div>
-    <div class="footer-controls">
-      <span class="zoom-label">Vuelos</span>
-      <button class="zoom-btn" type="button" onclick="changeFlightZoom(-0.08)">−</button>
-      <button class="zoom-btn" type="button" onclick="resetFlightZoom()">OK</button>
-      <button class="zoom-btn" type="button" onclick="changeFlightZoom(0.08)">+</button>
+    <div class="footer-actions" aria-label="Controles de pantalla">
+      <button class="font-btn" type="button" onclick="changeFontScale(-1)" title="Disminuir letra">A−</button>
+      <span class="font-indicator" id="fontScaleLabel">100%</span>
+      <button class="font-btn" type="button" onclick="changeFontScale(1)" title="Aumentar letra">A+</button>
+      <button class="font-btn" type="button" onclick="resetFontScale()" title="Restablecer tamaño">100</button>
       <button class="fs-btn" onclick="toggleFullScreen()">Pantalla completa</button>
     </div>
   </footer>
@@ -1465,6 +1012,7 @@ function renderList(id,flights,tipo){
   });
   box.innerHTML=html;
   updateCountdowns();
+  requestAnimationFrame(fitFlightText);
 }
 function updateTotalToday(){
   let totals=computeTotalsPersistent();
@@ -1641,31 +1189,69 @@ function tick(){
 
   document.getElementById('nextRefresh').textContent=Math.floor(refreshLeft/60)+':'+String(refreshLeft%60).padStart(2,'0');
   updateCountdowns();
+  requestAnimationFrame(fitFlightText);
   document.getElementById('countArr').textContent=countRemainingToday('llegadas')+' restantes';
   document.getElementById('countDep').textContent=countRemainingToday('salidas')+' restantes';
 }
 function toggleFullScreen(){let el=document.documentElement;if(!document.fullscreenElement){if(el.requestFullscreen)el.requestFullscreen();}else{if(document.exitFullscreen)document.exitFullscreen();}}
-
-const FLIGHT_ZOOM_KEY="south_tv_flight_zoom_v2";
-function applyFlightZoom(value){
-  let z=Number(value);
-  if(!isFinite(z)) z=1;
-  z=Math.max(0.78,Math.min(1.32,z));
-  document.documentElement.style.setProperty('--flightZoom',String(z));
-  try{localStorage.setItem(FLIGHT_ZOOM_KEY,String(z));}catch(e){}
-}
-function changeFlightZoom(delta){
-  const current=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--flightZoom'))||1;
-  applyFlightZoom(Math.round((current+delta)*100)/100);
-  setTimeout(()=>renderAll(),50);
-}
-function resetFlightZoom(){
-  applyFlightZoom(1);
-  setTimeout(()=>renderAll(),50);
-}
-try{applyFlightZoom(localStorage.getItem(FLIGHT_ZOOM_KEY)||1);}catch(e){applyFlightZoom(1);}
-
 loadLive();setInterval(tick,1000);setInterval(()=>{renderAll();},30000);
+
+/* === Controles de fuente con ajuste automático para que no se corte texto === */
+const FONT_SCALE_KEY="south_tv_font_scale_v1";
+const FONT_STEPS=[0.90,0.95,1.00,1.05,1.10,1.15,1.20,1.25,1.30,1.35];
+let fontStepIndex=2;
+function readFontScale(){
+  let saved=parseFloat(localStorage.getItem(FONT_SCALE_KEY)||"1");
+  let idx=FONT_STEPS.reduce((best,v,i)=>Math.abs(v-saved)<Math.abs(FONT_STEPS[best]-saved)?i:best,2);
+  fontStepIndex=idx;
+  applyFontScale(FONT_STEPS[fontStepIndex]);
+}
+function applyFontScale(scale){
+  document.documentElement.style.setProperty('--tv-font-scale',String(scale));
+  localStorage.setItem(FONT_SCALE_KEY,String(scale));
+  let lab=document.getElementById('fontScaleLabel');
+  if(lab)lab.textContent=Math.round(scale*100)+'%';
+  requestAnimationFrame(fitFlightText);
+}
+function changeFontScale(dir){
+  fontStepIndex=Math.max(0,Math.min(FONT_STEPS.length-1,fontStepIndex+dir));
+  applyFontScale(FONT_STEPS[fontStepIndex]);
+}
+function resetFontScale(){
+  fontStepIndex=2;
+  applyFontScale(FONT_STEPS[fontStepIndex]);
+}
+function fitOneLine(el,minPx){
+  if(!el)return;
+  el.style.fontSize='';
+  el.style.letterSpacing='';
+  const cs=getComputedStyle(el);
+  let size=parseFloat(cs.fontSize)||12;
+  let min=minPx||7;
+  let guard=0;
+  while(el.scrollWidth>el.clientWidth+1 && size>min && guard<24){
+    size-=0.5;
+    el.style.fontSize=size+'px';
+    guard++;
+  }
+  if(el.scrollWidth>el.clientWidth+1){
+    el.style.letterSpacing='0px';
+  }
+}
+function fitFlightText(){
+  document.querySelectorAll('.flight').forEach(row=>{
+    fitOneLine(row.querySelector('.num'),12);
+    fitOneLine(row.querySelector('.subnum'),6);
+    fitOneLine(row.querySelector('.city'),10);
+    fitOneLine(row.querySelector('.time'),7);
+    fitOneLine(row.querySelector('.state'),6);
+    fitOneLine(row.querySelector('.countdown'),7);
+    fitOneLine(row.querySelector('.gate-note'),5.5);
+  });
+}
+readFontScale();
+window.addEventListener('resize',()=>requestAnimationFrame(fitFlightText));
+
 </script>
 </body>
 </html>

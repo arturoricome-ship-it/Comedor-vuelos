@@ -19,12 +19,11 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{min-height:100%;overflow:auto;background:var(--bg);color:var(--white);font-family:"Outfit",sans-serif}
 body{background:
-  radial-gradient(circle at 18% 0%,rgba(96,165,250,.12),transparent 32%),
-  radial-gradient(circle at 82% 8%,rgba(200,168,75,.12),transparent 34%),
+  radial-gradient(circle at 18% 0%,rgba(96,165,250,.10),transparent 32%),
   linear-gradient(160deg,#101c31 0%,#0d1623 62%,#08111c 100%);
 }
 #app{min-height:100vh;width:100%;display:flex;flex-direction:column;padding:18px 22px 20px;gap:16px}
-.header{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;min-height:78px;border-bottom:1px solid rgba(200,168,75,.35);padding-bottom:14px}
+.header{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;min-height:78px;border-bottom:1px solid rgba(120,145,180,.18);padding-bottom:14px}
 .logo{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,#157f8e,#29b8cb 55%,#77dce8);display:flex;align-items:center;justify-content:center;color:#eef7f8;font-family:"Bebas Neue",sans-serif;font-size:30px;letter-spacing:.8px;box-shadow:0 8px 28px rgba(39,189,208,.22);border:1px solid rgba(119,220,232,.20)}
 .title h1{font-family:"Bebas Neue",sans-serif;font-size:48px;letter-spacing:3px;line-height:.9;color:var(--white)}
 .title .sub{margin-top:8px;color:var(--gold);font-size:15px;letter-spacing:2.7px;font-weight:800;text-transform:uppercase}
@@ -55,7 +54,7 @@ body{background:
   min-height:52px!important;
   padding-bottom:8px!important;
   gap:10px!important;
-  border-bottom-color:rgba(200,168,75,.26)!important;
+  border-bottom-color:rgba(120,145,180,.16)!important;
 }
 .logo{
   width:44px!important;
@@ -361,6 +360,15 @@ body{background:
 .insight .v.cyan{color:var(--cyan)}
 .insight .v.orange{color:var(--orange)}
 .insight .v.muted{color:var(--muted)}
+.insight .v .peak-time{color:var(--orange);font-weight:900;}
+.insight .v .peak-badge{display:inline-flex;align-items:center;justify-content:center;margin-left:10px;padding:3px 8px;border-radius:999px;background:rgba(184,131,90,.16);border:1px solid rgba(184,131,90,.34);color:#b8835a;font-size:.92em;line-height:1;vertical-align:middle;}
+.insight-remote{
+  background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.03))!important;
+  border-color:rgba(130,155,190,.14)!important;
+  box-shadow:none!important;
+}
+.insight-remote .k{color:rgba(169,179,199,.92)!important;}
+.insight-remote .v{color:var(--cyan)!important;text-shadow:none!important;}
 @media(max-width:1200px){
   .insights{
     gap:6px;
@@ -442,6 +450,11 @@ body{background:
 .insight .v{
   font-size:12px!important;
   margin-top:2px!important;
+}
+.insight .v .peak-badge{margin-left:6px!important;padding:2px 6px!important;font-size:.95em!important;}
+.insight-remote{
+  background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.03))!important;
+  border-color:rgba(130,155,190,.14)!important;
 }
 
 /* Más ancho al destino: volvemos a 3 columnas.
@@ -618,6 +631,7 @@ body::before{
   letter-spacing:1.55px!important;
 }
 body::before{
+  content:none!important;
   display:none!important;
   background-image:none!important;
   opacity:0!important;
@@ -655,7 +669,37 @@ body::before{
 }
 
 
-/* Fondo O eliminado definitivamente */
+/* Remotos: fondo frío definitivo, sin dominante amarilla */
+.insight-remote{
+  background:#17233a!important;
+  background-image:none!important;
+  border:1px solid rgba(120,145,180,.22)!important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.025)!important;
+}
+.insight-remote .k{
+  color:#9aa8bf!important;
+}
+.insight-remote .v{
+  color:#7dd3fc!important;
+  text-shadow:none!important;
+}
+
+
+/* Remotos igual que Próx. 60 min: mismo tono y misma base visual */
+.insight-remote{
+  background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.025))!important;
+  border:1px solid rgba(255,255,255,.07)!important;
+  box-shadow:none!important;
+}
+.insight-remote .k{
+  color:var(--muted)!important;
+}
+.insight-remote .v.cyan{
+  color:var(--cyan)!important;
+}
+
+
+/* Sin logo/O de fondo definitivamente */
 body::before{
   content:none!important;
   display:none!important;
@@ -663,21 +707,208 @@ body::before{
   opacity:0!important;
 }
 
-/* Pico llegadas: hora y número diferenciados */
-.insight .v .peak-time{
-  color:var(--orange);
-  font-weight:900;
+
+
+/* =========================================================
+   TV SAFE MODE · versión para pantallas con overscan/recorte
+   Añadido por ChatGPT: no toca JS ni conexión Railway/AENA.
+   Objetivo: dar margen real a los lados y evitar que se coman
+   columnas en Chromecast/TVs del trabajo.
+   ========================================================= */
+html,body{
+  width:100%!important;
+  max-width:100%!important;
+  overflow-x:hidden!important;
 }
-.insight .v .peak-count{
-  display:inline-flex;
-  align-items:center;
-  margin-left:8px;
-  padding:2px 7px;
-  border-radius:999px;
-  background:rgba(251,146,60,.15);
-  border:1px solid rgba(251,146,60,.28);
-  color:#ffd0a8;
-  font-weight:900;
+body{
+  overscroll-behavior:none!important;
+}
+#app{
+  width:100%!important;
+  max-width:100%!important;
+  padding-left:38px!important;
+  padding-right:38px!important;
+  padding-top:12px!important;
+  padding-bottom:14px!important;
+}
+.header{
+  grid-template-columns:minmax(92px,118px) minmax(0,1fr) auto auto!important;
+  column-gap:12px!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+}
+.logo{
+  width:108px!important;
+  min-width:108px!important;
+  max-width:108px!important;
+  flex-basis:108px!important;
+}
+.title{
+  min-width:0!important;
+  padding-left:10px!important;
+}
+.title h1,
+.title .sub{
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.status-top{
+  min-width:0!important;
+  gap:4px!important;
+}
+.pill{
+  min-width:62px!important;
+  max-width:86px!important;
+  padding-left:5px!important;
+  padding-right:5px!important;
+}
+.pill .value{
+  font-size:12px!important;
+}
+.pill .label{
+  font-size:6px!important;
+}
+.header-center{
+  min-width:80px!important;
+  gap:4px!important;
+}
+.pill-total,.pill-tomorrow{
+  min-width:62px!important;
+}
+.insights{
+  max-width:100%!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+}
+.columns{
+  width:100%!important;
+  max-width:100%!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:12px!important;
+  overflow:hidden!important;
+}
+.panel{
+  min-width:0!important;
+  max-width:100%!important;
+}
+.panel-head{
+  padding-left:9px!important;
+  padding-right:9px!important;
+  gap:8px!important;
+}
+.panel-title{
+  min-width:0!important;
+  font-size:23px!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.panel-count{
+  flex:0 0 auto!important;
+  font-size:10px!important;
+  padding:4px 7px!important;
+}
+.list{
+  max-width:100%!important;
+  overflow:hidden!important;
+}
+.flight{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  grid-template-columns:58px minmax(0,1fr) 58px 86px!important;
+  gap:5px!important;
+  padding-left:7px!important;
+  padding-right:6px!important;
+  overflow:hidden!important;
+}
+.num{
+  font-size:19px!important;
+}
+.subnum{
+  font-size:7px!important;
+}
+.city{
+  font-size:14px!important;
+  min-width:0!important;
+  max-width:100%!important;
+}
+.time{
+  font-size:9px!important;
+}
+.gate-note{
+  font-size:6px!important;
+  padding:2px 4px!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.right{
+  min-width:0!important;
+  max-width:86px!important;
+  overflow:hidden!important;
+}
+.state{
+  font-size:7px!important;
+  padding:3px 4px!important;
+  max-width:100%!important;
+}
+.countdown{
+  font-size:10px!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.footer{
+  padding-left:4px!important;
+  padding-right:4px!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+}
+.footer div{
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+@media(max-width:1200px){
+  #app{
+    padding-left:34px!important;
+    padding-right:34px!important;
+  }
+  .header{
+    grid-template-columns:minmax(82px,102px) minmax(0,1fr) auto auto!important;
+  }
+  .logo{
+    width:96px!important;
+    min-width:96px!important;
+    max-width:96px!important;
+    flex-basis:96px!important;
+  }
+  .title h1{font-size:21px!important;}
+  .title .sub{font-size:5.8px!important;}
+  .flight{
+    grid-template-columns:54px minmax(0,1fr) 52px 78px!important;
+  }
+  .city{font-size:13px!important;}
+  .num{font-size:18px!important;}
+  .right{max-width:78px!important;}
+}
+@media(max-width:850px){
+  #app{
+    padding-left:26px!important;
+    padding-right:26px!important;
+  }
+  .columns{
+    grid-template-columns:1fr!important;
+  }
+  .header{
+    grid-template-columns:90px minmax(0,1fr)!important;
+  }
+  .header-center,.status-top{
+    grid-column:1/-1!important;
+    justify-content:flex-start!important;
+  }
 }
 
 </style>
@@ -703,9 +934,9 @@ body::before{
   </header>
 
   <section class="insights" aria-label="Resumen operativo">
-    <div class="insight"><div class="k">Lleg. 60 min</div><div class="v green" id="insightNow">—</div></div>
+    <div class="insight"><div class="k">Próx. 60 min</div><div class="v green" id="insightNow">—</div></div>
     <div class="insight"><div class="k">Pico lleg.</div><div class="v orange" id="insightPeak">—</div></div>
-    <div class="insight"><div class="k">Remotos</div><div class="v cyan" id="insightRemote">—</div></div>
+    <div class="insight insight-remote"><div class="k">Remotos</div><div class="v cyan" id="insightRemote">—</div></div>
   </section>
 
   <main class="columns">
@@ -733,6 +964,7 @@ let liveData={lle:[],sal:[],dayKey:null};
 let refreshLeft=REFRESH_SECONDS;
 let loading=false;
 let serverOffsetMs=0; // corrige si el reloj de la TV/navegador está mal
+let lastDayKey=isoDate(new Date()); // para forzar recarga inmediata al cambiar de día
 
 const CIUDADES={"ALC":"Alicante","BCN":"Barcelona","MAD":"Madrid","VLC":"Valencia","SVQ":"Sevilla","BIO":"Bilbao","PMI":"Palma","IBZ":"Ibiza","MAH":"Menorca","TFN":"Tenerife Norte","TFS":"Tenerife Sur","LPA":"Gran Canaria","ACE":"Lanzarote","FUE":"Fuerteventura","LCG":"A Coruña","SCQ":"Santiago","OVD":"Asturias","VGO":"Vigo","ZAZ":"Zaragoza","GRX":"Granada","AGP":"Málaga","XRY":"Jerez","CDG":"París","ORY":"París Orly","LHR":"Londres","LGW":"Londres","STN":"Londres","AMS":"Ámsterdam","FCO":"Roma","MXP":"Milán","VCE":"Venecia","NCE":"Niza","DUB":"Dublín","LIS":"Lisboa","OPO":"Oporto","ATH":"Atenas","IST":"Estambul","BRU":"Bruselas","FRA":"Fráncfort","MUC":"Múnich","VIE":"Viena","WAW":"Varsovia","PRG":"Praga","BUD":"Budapest","GVA":"Ginebra","ZRH":"Zúrich","CPH":"Copenhague","ARN":"Estocolmo","HEL":"Helsinki","OSL":"Oslo","TLV":"Tel Aviv","CMN":"Casablanca","RAK":"Marrakech","TUN":"Túnez","ALG":"Argel","ORN":"Orán","BOD":"Burdeos","NTE":"Nantes","TLS":"Toulouse","MPL":"Montpellier","REU":"Reus","GRO":"Gerona","SDR":"Santander","LEI":"Almería","RMU":"Murcia"};
 function pad(n){return String(n).padStart(2,"0");}
@@ -864,7 +1096,7 @@ function gateOperationalLabel(puerta){
   let number=String(parseInt(m[2],10));
   let remoteSet=new Set([
     "C50","C48","C46","C44","C42","C40","C38",
-    "B18","B20","B22","B24","B26","B28","B30","B32","B34",
+    "B18","B20","B22",
     "C20","C22","C24","C26","C28","C30","C32","C34"
   ]);
   if(remoteSet.has(gate))return {text:"Remoto", cls:"remote"};
@@ -949,29 +1181,20 @@ const CHANGE_CACHE_KEY="south_tv_last_snapshot_v1";
 
 function setText(id,txt){
   let el=document.getElementById(id);
-  if(!el)return;
-  if(id==="insightPeak")el.innerHTML=txt;
-  else el.textContent=txt;
+  if(el)el.textContent=txt;
 }
 function allLiveFlights(){
   return (liveData.lle||[]).map(v=>({...v,tipo:'llegadas'})).concat((liveData.sal||[]).map(v=>({...v,tipo:'salidas'})));
 }
 function calcActiveNow(){
-  // Llegadas en los próximos 60 min:
-  // Solo cuenta aviones que todavía NO han llegado.
-  // No cuenta salidas, equipajes, en tierra, finalizados, cancelados,
-  // ni llegadas cuya hora real/estimada ya haya pasado.
+  // Próx. 60 min = solo llegadas pendientes de hoy.
+  // No cuentan salidas ni llegadas ya materializadas (equipajes / en tierra / aterrizado).
   return (liveData.lle||[]).filter(v=>{
     if(v.esManana)return false;
-
     const cls=v.estadoClass||"";
-    const estado=String(v.estado||"").toLowerCase();
-
-    if(cls==="e-landed"||cls==="e-equip"||cls==="e-final"||cls==="e-cancelled")return false;
-    if(/tierra|equipaje|equipajes|finaliz|cancel/.test(estado))return false;
-
-    const d=minutesUntil(v);
-    return d>0 && d<=60;
+    if(cls==='e-equip' || cls==='e-landed')return false;
+    let d=minutesUntil(v);
+    return d>=0 && d<=60;
   }).length;
 }
 function calcPeak(){
@@ -985,7 +1208,7 @@ function calcPeak(){
     .filter(m=>m!==null && m>=now)
     .sort((a,b)=>a-b);
 
-  if(!arrivals.length)return "Sin llegadas";
+  if(!arrivals.length)return null;
 
   let bestStart=arrivals[0], bestCount=1;
   for(let i=0;i<arrivals.length;i++){
@@ -999,8 +1222,11 @@ function calcPeak(){
   }
 
   const end=bestStart+windowMin;
-  const rango=pad(Math.floor(bestStart/60))+":"+pad(bestStart%60)+"-"+pad(Math.floor(end/60))+":"+pad(end%60);
-  return `<span class="peak-time">${rango}</span><span class="peak-count">${bestCount} lleg.</span>`;
+  return {
+    start: pad(Math.floor(bestStart/60))+":"+pad(bestStart%60),
+    end: pad(Math.floor(end/60))+":"+pad(end%60),
+    count: bestCount
+  };
 }
 function calcRemoteNext(){
   let rem=(liveData.sal||[]).filter(v=>{
@@ -1011,8 +1237,7 @@ function calcRemoteNext(){
   });
   if(!rem.length)return "0";
   let first=rem.sort(sortFlights)[0];
-  let city=cityName(first.destino||first.destination||first.aeropuertoDestino||"");
-  return rem.length+" · "+city+" "+(first.puerta||"");
+  return rem.length+" · "+(first.numero||"")+" "+(first.puerta||"");
 }
 function makeSnapshot(){
   let obj={};
@@ -1044,8 +1269,18 @@ function updateChanges(){
   return msg||"Sin cambios";
 }
 function updateInsights(){
-  setText("insightNow",calcActiveNow()+" lleg.");
-  setText("insightPeak",calcPeak());
+  const nowCount=calcActiveNow();
+  const peak=calcPeak();
+  const nowEl=document.getElementById("insightNow");
+  const peakEl=document.getElementById("insightPeak");
+  if(nowEl) nowEl.textContent=nowCount+" lleg.";
+  if(peakEl){
+    if(!peak){
+      peakEl.textContent='Sin llegadas';
+    }else{
+      peakEl.innerHTML=`<span class="peak-time">${peak.start}-${peak.end}</span><span class="peak-badge">${peak.count} lleg.</span>`;
+    }
+  }
   setText("insightRemote",calcRemoteNext());
 }
 function renderAll(){updateTotalToday();updateInsights();renderList('arrivals',liveData.lle,'llegadas');renderList('departures',liveData.sal,'salidas');}
@@ -1067,7 +1302,27 @@ async function loadLive(){
     if(!liveData.sal.length)document.getElementById('departures').innerHTML='<div class="error">Error al cargar salidas desde Railway/AENA</div>';
   }finally{loading=false;}
 }
-function tick(){let n=nowReal();document.getElementById('clock').textContent=pad(n.getHours())+':'+pad(n.getMinutes());refreshLeft--;if(refreshLeft<0)refreshLeft=0;document.getElementById('nextRefresh').textContent=Math.floor(refreshLeft/60)+':'+String(refreshLeft%60).padStart(2,'0');if(refreshLeft===0)loadLive();updateCountdowns();document.getElementById('countArr').textContent=countRemainingToday('llegadas')+' restantes';document.getElementById('countDep').textContent=countRemainingToday('salidas')+' restantes';}
+function tick(){
+  let n=nowReal();
+  let currentDayKey=isoDate(n);
+  document.getElementById('clock').textContent=pad(n.getHours())+':'+pad(n.getMinutes());
+
+  // Si cambia el día, forzamos una recarga inmediata sin esperar a los 5 min
+  if(currentDayKey!==lastDayKey){
+    lastDayKey=currentDayKey;
+    refreshLeft=0;
+    if(!loading) loadLive();
+  }else{
+    refreshLeft--;
+    if(refreshLeft<0)refreshLeft=0;
+    if(refreshLeft===0 && !loading)loadLive();
+  }
+
+  document.getElementById('nextRefresh').textContent=Math.floor(refreshLeft/60)+':'+String(refreshLeft%60).padStart(2,'0');
+  updateCountdowns();
+  document.getElementById('countArr').textContent=countRemainingToday('llegadas')+' restantes';
+  document.getElementById('countDep').textContent=countRemainingToday('salidas')+' restantes';
+}
 function toggleFullScreen(){let el=document.documentElement;if(!document.fullscreenElement){if(el.requestFullscreen)el.requestFullscreen();}else{if(document.exitFullscreen)document.exitFullscreen();}}
 loadLive();setInterval(tick,1000);setInterval(()=>{renderAll();},30000);
 </script>

@@ -1098,6 +1098,134 @@ html,body{
   .flight{grid-template-columns:110px minmax(0,1fr) 135px 124px!important;min-height:94px!important}
 }
 
+
+
+/* ==========================================================
+   AJUSTE FINO ZONA LLEGADAS/SALIDAS
+   Mantiene la parte superior como está y permite agrandar/reducir
+   solo las tarjetas de vuelos desde los botones inferiores.
+   ========================================================== */
+:root{
+  --flightZoom:1;
+}
+.columns{
+  gap:14px!important;
+}
+.panel{
+  border-radius:22px!important;
+}
+.panel-head{
+  padding:12px 16px!important;
+}
+.panel-title{
+  font-size:calc(34px * var(--flightZoom))!important;
+  letter-spacing:1.7px!important;
+}
+.panel-title .ico{
+  font-size:calc(28px * var(--flightZoom))!important;
+}
+.panel-count{
+  font-size:calc(15px * var(--flightZoom))!important;
+  padding:7px 12px!important;
+}
+.list{
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  padding:10px!important;
+  gap:8px!important;
+}
+.flight{
+  grid-template-columns:calc(86px * var(--flightZoom)) minmax(0,1fr) calc(92px * var(--flightZoom)) calc(106px * var(--flightZoom))!important;
+  gap:calc(10px * var(--flightZoom))!important;
+  min-height:calc(76px * var(--flightZoom))!important;
+  padding:calc(10px * var(--flightZoom)) calc(12px * var(--flightZoom))!important;
+  border-radius:18px!important;
+}
+.flight::before{
+  width:6px!important;
+}
+.num{
+  font-size:calc(31px * var(--flightZoom))!important;
+  letter-spacing:1.3px!important;
+}
+.subnum{
+  font-size:calc(12px * var(--flightZoom))!important;
+  margin-top:calc(4px * var(--flightZoom))!important;
+}
+.city{
+  font-size:calc(25px * var(--flightZoom))!important;
+  line-height:1.03!important;
+}
+.time{
+  font-size:calc(17px * var(--flightZoom))!important;
+  margin-top:calc(4px * var(--flightZoom))!important;
+}
+.oldtime{
+  margin-right:calc(10px * var(--flightZoom))!important;
+}
+.gate-note{
+  font-size:calc(10px * var(--flightZoom))!important;
+  padding:calc(6px * var(--flightZoom)) calc(9px * var(--flightZoom))!important;
+  border-radius:999px!important;
+  letter-spacing:.45px!important;
+}
+.state{
+  font-size:calc(11px * var(--flightZoom))!important;
+  padding:calc(6px * var(--flightZoom)) calc(8px * var(--flightZoom))!important;
+}
+.countdown{
+  font-size:calc(19px * var(--flightZoom))!important;
+  line-height:1.06!important;
+}
+.right{
+  gap:calc(5px * var(--flightZoom))!important;
+}
+.footer{
+  gap:10px!important;
+}
+.footer-controls{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex:0 0 auto;
+}
+.zoom-btn{
+  border:1px solid rgba(200,168,75,.35);
+  background:rgba(200,168,75,.08);
+  color:var(--gold2);
+  border-radius:10px;
+  padding:7px 10px;
+  font:900 13px "Outfit";
+  cursor:pointer;
+  min-width:34px;
+}
+.zoom-label{
+  color:var(--muted);
+  font-size:11px;
+  font-weight:900;
+  white-space:nowrap;
+}
+@media(max-width:1200px){
+  .panel-head{padding:10px 13px!important}
+  .panel-title{font-size:calc(30px * var(--flightZoom))!important}
+  .panel-title .ico{font-size:calc(25px * var(--flightZoom))!important}
+  .panel-count{font-size:calc(13px * var(--flightZoom))!important;padding:6px 10px!important}
+  .list{padding:8px!important;gap:7px!important}
+  .flight{
+    grid-template-columns:calc(78px * var(--flightZoom)) minmax(0,1fr) calc(80px * var(--flightZoom)) calc(92px * var(--flightZoom))!important;
+    min-height:calc(68px * var(--flightZoom))!important;
+    padding:calc(8px * var(--flightZoom)) calc(10px * var(--flightZoom))!important;
+    gap:calc(8px * var(--flightZoom))!important;
+  }
+  .num{font-size:calc(28px * var(--flightZoom))!important}
+  .subnum{font-size:calc(10px * var(--flightZoom))!important}
+  .city{font-size:calc(22px * var(--flightZoom))!important}
+  .time{font-size:calc(15px * var(--flightZoom))!important}
+  .gate-note{font-size:calc(8.5px * var(--flightZoom))!important;padding:calc(5px * var(--flightZoom)) calc(7px * var(--flightZoom))!important}
+  .state{font-size:calc(9.5px * var(--flightZoom))!important;padding:calc(5px * var(--flightZoom)) calc(7px * var(--flightZoom))!important}
+  .countdown{font-size:calc(17px * var(--flightZoom))!important}
+}
+
 </style>
 </head>
 <body>
@@ -1139,7 +1267,13 @@ html,body{
 
   <footer class="footer">
     <div>Fuente: servidor Railway/AENA usado por la app South. <b>Actualización automática cada 5 min</b>.</div>
-    <button class="fs-btn" onclick="toggleFullScreen()">Pantalla completa</button>
+    <div class="footer-controls">
+      <span class="zoom-label">Vuelos</span>
+      <button class="zoom-btn" type="button" onclick="changeFlightZoom(-0.08)">−</button>
+      <button class="zoom-btn" type="button" onclick="resetFlightZoom()">OK</button>
+      <button class="zoom-btn" type="button" onclick="changeFlightZoom(0.08)">+</button>
+      <button class="fs-btn" onclick="toggleFullScreen()">Pantalla completa</button>
+    </div>
   </footer>
 </div>
 <script>
@@ -1511,6 +1645,26 @@ function tick(){
   document.getElementById('countDep').textContent=countRemainingToday('salidas')+' restantes';
 }
 function toggleFullScreen(){let el=document.documentElement;if(!document.fullscreenElement){if(el.requestFullscreen)el.requestFullscreen();}else{if(document.exitFullscreen)document.exitFullscreen();}}
+
+const FLIGHT_ZOOM_KEY="south_tv_flight_zoom_v2";
+function applyFlightZoom(value){
+  let z=Number(value);
+  if(!isFinite(z)) z=1;
+  z=Math.max(0.78,Math.min(1.32,z));
+  document.documentElement.style.setProperty('--flightZoom',String(z));
+  try{localStorage.setItem(FLIGHT_ZOOM_KEY,String(z));}catch(e){}
+}
+function changeFlightZoom(delta){
+  const current=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--flightZoom'))||1;
+  applyFlightZoom(Math.round((current+delta)*100)/100);
+  setTimeout(()=>renderAll(),50);
+}
+function resetFlightZoom(){
+  applyFlightZoom(1);
+  setTimeout(()=>renderAll(),50);
+}
+try{applyFlightZoom(localStorage.getItem(FLIGHT_ZOOM_KEY)||1);}catch(e){applyFlightZoom(1);}
+
 loadLive();setInterval(tick,1000);setInterval(()=>{renderAll();},30000);
 </script>
 </body>

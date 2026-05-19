@@ -933,136 +933,40 @@ html,body{
 }
 
 
-/* === AJUSTE TV: menos aire arriba sin volver a hacer todo pequeño === */
-#app{
-  padding-top:8px!important;
-  padding-bottom:14px!important;
-  gap:9px!important;
+/* === Logo real SOUTH + quitar viñetas extras === */
+.logo.logo-real{
+  width:160px!important;
+  height:52px!important;
+  min-width:160px!important;
+  max-width:160px!important;
+  flex-basis:160px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  background:none!important;
+  border:none!important;
+  box-shadow:none!important;
+  border-radius:0!important;
+  padding:0!important;
+  overflow:visible!important;
 }
-
-/* Cabecera más baja */
-.header{
-  min-height:52px!important;
-  padding-bottom:7px!important;
-  gap:14px!important;
-  column-gap:16px!important;
+.logo.logo-real img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  object-position:left center!important;
+  display:block!important;
 }
-
-.logo{
-  width:124px!important;
-  height:38px!important;
-  min-width:124px!important;
-  max-width:124px!important;
-  flex-basis:124px!important;
-}
-
-.title{
-  padding-left:13px!important;
-  margin-left:1px!important;
-}
-
-.title h1{
-  font-size:27px!important;
-  line-height:.9!important;
-}
-
-.title .sub{
-  font-size:6.8px!important;
-  margin-top:3px!important;
-  letter-spacing:1.45px!important;
-}
-
-.status-top{
-  gap:7px!important;
-}
-
-.pill{
-  min-width:84px!important;
-  padding:5px 8px!important;
-  border-radius:12px!important;
-}
-
-.pill .label{
-  font-size:6.8px!important;
-  letter-spacing:.85px!important;
-}
-
-.pill .value{
-  font-size:15px!important;
-}
-
-.header-center{
-  min-width:132px!important;
-  gap:7px!important;
-}
-
-.pill-total,.pill-tomorrow{
-  min-width:82px!important;
-}
-
-/* Viñetas más pegadas al encabezado */
-.insights{
-  margin-top:-2px!important;
-  gap:8px!important;
-}
-
-.insight{
-  padding:6px 9px!important;
-  border-radius:12px!important;
-}
-
-.insight .k{
-  font-size:7px!important;
-}
-
-.insight .v{
-  font-size:13px!important;
-  margin-top:2px!important;
-}
-
-/* Mantener vuelos legibles */
-.panel-head{
-  padding-top:10px!important;
-  padding-bottom:10px!important;
-}
-
-.list{
-  padding-top:7px!important;
-}
-
-/* Quitamos casi todo el pie para ganar altura en TV */
-.footer{
-  display:none!important;
-}
-
+.insights{display:none!important;}
+#app{gap:10px!important;}
+.columns{margin-top:0!important;}
 @media(max-width:1200px){
-  #app{
-    padding-top:6px!important;
-    padding-left:30px!important;
-    padding-right:30px!important;
-    padding-bottom:10px!important;
-    gap:8px!important;
-  }
-  .header{
-    min-height:48px!important;
-    padding-bottom:6px!important;
-  }
-  .logo{
-    width:112px!important;
-    height:34px!important;
-    min-width:112px!important;
-    max-width:112px!important;
-    flex-basis:112px!important;
-  }
-  .title h1{
-    font-size:24px!important;
-  }
-  .pill{
-    min-width:76px!important;
-    padding:5px 7px!important;
-  }
-  .pill .value{
-    font-size:14px!important;
+  .logo.logo-real{
+    width:142px!important;
+    height:46px!important;
+    min-width:142px!important;
+    max-width:142px!important;
+    flex-basis:142px!important;
   }
 }
 
